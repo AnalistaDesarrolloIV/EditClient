@@ -1,4 +1,5 @@
 @extends('Pages.inicio.index')
+@section('tittle', 'Información contactos')
 
 @section('contenido')
 <div class="relative flex items-top justify-center min-h-screen  sm:items-center py-4 sm:pt-0">
@@ -8,8 +9,15 @@
                 <div class="row op rounded p-4">
                 <div class="col">
                     <div class="row">
-                        <div class="col-12 text-center pb-5">
+                        <div class="col-12 text-center">
                             <h1 class=""><b>CONTACTOS.</b> </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 pb-4">
+                            <div class="d-grid gap-2">
+                                <a href=""class="btn btn-dark" ><i class="fas fa-plus-circle"></i> Agregar contacto</a>
+                            </div>
                         </div>
                     </div>
                     <form action="" method="post">
@@ -20,6 +28,7 @@
                                     <table class="table table-bordered border-dark" id="dt">
                                         <thead>
                                             <tr>
+                                                <th>Acciones</th>
                                                 <th>#ID</th>
                                                 <th>Nombre Dirección</th>
                                                 <th>Dirección fisica</th>
@@ -36,6 +45,7 @@
                                         <tbody>
                                             @foreach($direccion as $key => $val)
                                             <tr>
+                                                <td class="text-center"><a href="/"><i class="fas fa-pen"></i></a></td>
                                                 <td>{{$direccion[$key]['id__']}}</td>
                                                 <td>{{$direccion[$key]['Nombre_Direccion']}}</td>
                                                 <td>{{$direccion[$key]['Direccion_fisica']}}</td>
@@ -63,9 +73,6 @@
                                 <a href="{{ route('info.index')}}" class="btn btn-outline-dark">Volver</a>
                             </div> -->
                             
-                            <div class="col-12 col-md-4 pb-3 pb-md-0 d-grid gap-2">
-                                <a href="/" class="btn btn-outline-dark">Reingresar</a>
-                            </div>
                         </div>
                     </form>
                 </div>

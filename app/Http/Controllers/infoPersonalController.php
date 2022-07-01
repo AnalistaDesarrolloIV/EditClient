@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class infoPersonalController extends Controller
 {
@@ -49,11 +50,20 @@ class infoPersonalController extends Controller
             ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardName,EmailAddress,Phone1,Phone2&$filter=FederalTaxID eq  '."'$id'");
         } while ($user->clientError());
         $user = $user->json();
-        $usuario = $user['value']['1'];
         // dd($usuario['CardCode']);
-        $_SESSION['CODUSER'] = $usuario['CardCode'];
+        // dd($user);
 
-        return view('Pages.consulta.FormEditPerson', compact('usuario'));
+        if (!isset($user['value']['0'])) {
+            alert()->warning('¡Atencion!','Identificacion no existe.');
+
+
+            return view('welcome');
+        }else{
+            $usuario = $user['value']['0'];
+            $_SESSION['CODUSER'] = $usuario['CardCode'];
+            return view('Pages.consulta.FormEditPerson', compact('usuario'));
+        }
+
     }
 
     /**

@@ -21,9 +21,15 @@ Route::get('/', function () {
 });
 
 Route::get('/login', [SessionController::class, 'login'])->name('login');
+
 Route::get('/npersonal', [NaturalController::class, 'infoPersonal'])->name('infoPersonal');
+Route::post('/npersonaledit', [NaturalController::class, 'editPersonal'])->name('editPersonal');
+
 Route::get('/ndir', [NaturalController::class, 'infoDirecciones'])->name('infoDirecciones');
+Route::get('/ndiredit/{id}', [NaturalController::class, 'EditDirecciones'])->name('EditDirecciones');
+
 Route::get('/ncont', [NaturalController::class, 'infoContactos'])->name('infoContactos');
+
 
 Route::resources([
     'info' => infoPersonalController::class,

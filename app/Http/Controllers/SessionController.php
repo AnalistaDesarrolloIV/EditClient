@@ -14,12 +14,18 @@ class SessionController extends Controller
             'UserName' => 'Ecommerce',
             'Password' => '1m3lSlp4w9',
         ])->json();
+        // dd($users);
+        if (isset( $users['SessionId'])) {
+            session_start();
+            $_SESSION['B1SESSION'] = $users['SessionId'];
+    
+    
+            return view('Pages.consulta.infoPersonal');
+        }else {
+            alert()->warning('¡Atencion!','Ingreso fallido.');
+            return redirect('/');
+        }
 
         
-        session_start();
-        $_SESSION['B1SESSION'] = $users['SessionId'];
-
-
-        return view('Pages.consulta.infoPersonal');
     }
 }

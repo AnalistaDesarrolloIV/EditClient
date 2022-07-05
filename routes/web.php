@@ -26,6 +26,7 @@ Route::get('/npersonal', [NaturalController::class, 'infoPersonal'])->name('info
 Route::post('/npersonaledit', [NaturalController::class, 'editPersonal'])->name('editPersonal');
 
 Route::get('/ndir', [NaturalController::class, 'infoDirecciones'])->name('infoDirecciones');
+Route::get('/ndircreate', [NaturalController::class, 'createDireccion'])->name('createDireccion');
 Route::get('/ndiredit/{id}', [NaturalController::class, 'EditDirecciones'])->name('EditDirecciones');
 
 Route::get('/ncont', [NaturalController::class, 'infoContactos'])->name('infoContactos');

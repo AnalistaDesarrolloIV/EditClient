@@ -42,25 +42,25 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$usuario['Phone1']}}" name="Phone1">
+                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$usuario['Phone1']}}" name="Phone1" required>
                                     <label for="floatingInput">Telefono 1. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$usuario['Phone2']}}" name="Phone2">
+                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$usuario['Phone2']}}" name="Phone2" required>
                                     <label for="floatingInput">Telefono 2. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$usuario['EmailAddress']}}" name="EmailAddress">
+                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$usuario['EmailAddress']}}" name="EmailAddress" required>
                                     <label for="floatingInput">Correo personal. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$usuario['EmailAddress']}}" name="EmailAddress">
+                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$usuario['EmailAddress']}}" name="EmailAddress" required>
                                     <label for="floatingInput">Correo comercial. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>
@@ -70,7 +70,7 @@
                                     <input class="form-control form-control-lg" id="formFileLg" type="file" accept=".pdf,image/*"> -->
                                     <div class="input-group mb-3">
                                         <label class="input-group-text" for="inputGroupFile01">RUT/Cedula de ciudadania.  <b style=" color: red;">*</b></label>
-                                        <input type="file" class="form-control d-flex align-content-center" id="inputGroupFile01" name="IdentificacionArch" style="height: 3.5rem;" accept=".pdf,image/*">
+                                        <input type="file" class="form-control d-flex align-content-center" id="inputGroupFile01" name="IdentificacionArch" style="height: 3.5rem;" accept=".pdf,image/*" >
                                     </div>
                                 <!-- </div> -->
                             </div>

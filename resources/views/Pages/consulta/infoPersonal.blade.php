@@ -43,7 +43,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                         <div class="form-floating mb-3">
-                                            <select class="form-select" id="floatingSelectGrid" name="tipoIdentificacion">
+                                            <select class="form-select" id="floatingSelectGrid" name="tipoIdentificacion" required>
                                                 <option value="1">Nit</option>
                                                 <option value="2">CC</option>
                                             </select>

@@ -10,9 +10,9 @@ class SessionController extends Controller
     public function login ()
     {
         $users = Http::post('https://10.170.20.95:50000/b1s/v1/Login',[
-            'CompanyDB' => 'INVERSIONES',
-            'UserName' => 'Ecommerce',
-            'Password' => '1m3lSlp4w9',
+            'CompanyDB' => 'INVERSIONES0804',
+            'UserName' => 'Prueba',
+            'Password' => '1234',
         ])->json();
         // dd($users);
         if (isset( $users['SessionId'])) {

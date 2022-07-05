@@ -38,31 +38,97 @@ class infoPersonalController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-        $id = $input['identificacion'];
+
+
+        if ($input['tipoIdentificacion'] == 1) { 
+
+            $id = $input['identificacion'];
         
-        // dd($id);
-        session_start();
+            session_start();
+    
+            $_SESSION['USER'] = $input['identificacion'];
+            $cont = 0;
+            do {
+                if ($cont <= 5) {
+                    $user = Http::withToken($_SESSION['B1SESSION'])
+                    ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardName,EmailAddress,Phone1,Phone2&$filter=FederalTaxID eq  '."'$id'");
+                    $cont += 1;
+                } else {
+                        $users = Http::post('https://10.170.20.95:50000/b1s/v1/Login',[
+                            'CompanyDB' => 'INVERSIONES0804',
+                            'UserName' => 'Prueba',
+                            'Password' => '1234',
+                        ])->json();
+                        // dd($users);
+                        if (isset( $users['SessionId'])) {
+                            $_SESSION['B1SESSION'] = $users['SessionId'];
+                        }else {
+                            alert()->warning('¡Atencion!','Ingreso fallido.');
+                            return redirect('/');
+                        }
+                        $cont = 0;
 
-        $_SESSION['USER'] = $input['identificacion'];
+                }
+                
+            } while ($user->clientError());
+            $user = $user->json();
+    
+            if (!isset($user['value']['1'])) {
+                alert()->warning('¡Atencion!','Identificacion no existe o tipo de documento incorrecto.');
+    
+    
+                return view('welcome');
+            }else{
+                $usuario = $user['value']['1'];
+                $_SESSION['CODUSER'] = $usuario['CardCode'];
+                return view('Pages.consulta.FormEditPerson', compact('usuario'));
+            }
+        }else { 
+            $id = $input['identificacion'];
         
-        do {
-            $user = Http::withToken($_SESSION['B1SESSION'])
-            ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardName,EmailAddress,Phone1,Phone2&$filter=FederalTaxID eq  '."'$id'");
-        } while ($user->clientError());
-        $user = $user->json();
-        // dd($usuario['CardCode']);
-        // dd($user);
-
-        if (!isset($user['value']['0'])) {
-            alert()->warning('¡Atencion!','Identificacion no existe.');
-
-
-            return view('welcome');
-        }else{
-            $usuario = $user['value']['0'];
-            $_SESSION['CODUSER'] = $usuario['CardCode'];
-            return view('Pages.consulta.FormEditPerson', compact('usuario'));
+            session_start();
+    
+            $_SESSION['USER'] = $input['identificacion'];
+            $_SESSION['T_USER'] = $input['tipoIdentificacion'];
+            $cont = 0;
+            do {
+                if ($cont <= 5) {
+                    $user = Http::withToken($_SESSION['B1SESSION'])
+                    ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardName,EmailAddress,Phone1,Phone2&$filter=FederalTaxID eq  '."'$id'");
+                    $cont += 1;
+                } else {
+                    $users = Http::post('https://10.170.20.95:50000/b1s/v1/Login',[
+                        'CompanyDB' => 'INVERSIONES0804',
+                        'UserName' => 'Prueba',
+                        'Password' => '1234',
+                    ])->json();
+                    // dd($users);
+                    if (isset( $users['SessionId'])) {
+                        $_SESSION['B1SESSION'] = $users['SessionId'];
+                    }else {
+                        alert()->warning('¡Atencion!','Ingreso fallido.');
+                        return redirect('/');
+                    }
+                    $cont = 0;
+            
+                }
+                
+            } while ($user->clientError());
+            $user = $user->json();
+    
+            if (!isset($user['value']['0'])) {
+                alert()->warning('¡Atencion!','Identificacion no existe o tipo de documento incorrecto.');
+    
+    
+                return view('welcome');
+            }else{
+                $usuario = $user['value']['0'];
+                $_SESSION['CODUSER'] = $usuario['CardCode'];
+                return view('Pages.consulta.FormEditPerson', compact('usuario'));
+            }
         }
+
+       
 
     }
 

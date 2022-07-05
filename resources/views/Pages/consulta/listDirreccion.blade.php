@@ -17,7 +17,7 @@
                     <div class="row">
                         <div class="col-3 pb-4">
                             <div class="d-grid gap-2">
-                                <a href=""class="btn btn-dark" ><i class="fas fa-plus-circle"></i> Agregar dirección</a>
+                                <a href="/ndircreate" class="btn btn-dark" ><i class="fas fa-plus-circle"></i> Agregar dirección</a>
                             </div>
                         </div>
                     </div>

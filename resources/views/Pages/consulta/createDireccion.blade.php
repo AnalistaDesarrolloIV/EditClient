@@ -10,16 +10,16 @@
                 <div class="col">
                     <div class="row">
                         <div class="col-12 text-center pb-3">
-                            <h1 class=""><b>EDITAR DIRECCIÓN.</b> </h1>
+                            <h1 class=""><b>CREAR DIRECCIÓN.</b> </h1>
                         </div>
                     </div>
                     <form action="" method="put" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
-                            <input type="hidden" value="{{$dire['id__']}}" name="id__">
+                            <input type="hidden" value="" name="id__">
                             <div class="col-12">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{$dire['Nombre_Direccion']}}" name="FACTURA" required >
+                                    <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="" name="FACTURA"  required>
                                     <label for="floatingInput">Nombre Dirección. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                                 @error('Nombre_Direccion')
@@ -58,7 +58,7 @@
 
                             <div class="col-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="direccion_completa" placeholder="name@example.com" value="{{$dire['Direccion_fisica']}}" name="Direccion_fisica" readonly required>
+                                    <input type="text" class="form-control" id="direccion_completa" placeholder="name@example.com" value="" name="Direccion_fisica" readonly required>
                                     <label for="direccion_completa">Dirección fisica. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>
@@ -66,28 +66,19 @@
                             <div class="col-6">
                                 <div class="form-floating mb-3">
                                     <select class="form-select select2" id="floatingInput"  placeholder="name@example.com" name="Departamento" required>
-                                        @if(isset($dire['Departamento']))
-                                            <option value="{{$dire['Departamento']}}" readonly>{{$dire['Departamento']}}</option>
-                                        @else
-                                            <option value="" readonly>Departamento.</option>
-                                        @endif
+                                        <option value="">Departamento</option>
                                         @foreach($dep as $key => $value)
                                             <option value="">{{$dep[$key]['departamento']}}</option>
                                         @endforeach
                                     </select>
-                                    <!-- <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$dire['Departamento']}}" name="Departamento"> -->
-                                    <label for="floatingInput">Departamento. <b style="font-size: 18px; color: red;">*</b></label>
+                                    <label for="floatingInput">Departamento.</label>
                                 </div>
                             </div>
                             
                             <div class="col-6">
                                 <div class="form-floating mb-3">
                                     <select class="form-select select2" id="ciudades"  placeholder="name@example.com" name="Ciudad" required>
-                                        @if(isset($dire['Ciudad']))
-                                            <option value="{{$dire['Ciudad']}}" readonly>{{$dire['Ciudad']}}</option>
-                                        @else
-                                            <option value="" readonly>Ciudad.</option>
-                                        @endif
+                                        <option value="">Ciudad</option>
                                         @foreach($dep as $key => $value)
                                             @foreach($dep[$key]['ciudades'] as $val )
                                                 <option value="">{{$val}}</option>
@@ -102,16 +93,10 @@
                             
                             <div class="col-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$dire['Barrio_Vereda_Corregimiento']}}" name="Barrio_Vereda_Corregimiento" required>
+                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="" name="Barrio_Vereda_Corregimiento" required>
                                     <label for="floatingInput">Barrio/vereda/corregimiento. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>
-                            <!-- <div class="col-12">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$dire['Municipio_nombre']}}" name="Municipio">
-                                    <label for="floatingInput">Municipio. <b style="font-size: 18px; color: red;">*</b></label>
-                                </div>
-                            </div> -->
                             
                             <div class="col-12">
                                 <div class="form-floating mb-3">
@@ -119,18 +104,12 @@
                                         <option value="1">250030-Madrid, Cundinamarca</option>
                                         <option value="2">250030-Madrid, Cundinamarca</option>
                                     </select>
-                                    <label for="floatingSelectGrid">Codigo postal.<b style="font-size: 18px; color: red;">*</b></label>
+                                    <label for="floatingSelectGrid">Codigo postal. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>
-                            <!-- <div class="col-12">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$dire['Codigo_Postal']}}" name="Codigo_Postal">
-                                    <label for="floatingInput">Codigo postal. <b style="font-size: 18px; color: red;">*</b></label>
-                                </div>
-                            </div> -->
                             <div class="col-12">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$_SESSION['USER']}}" name="Identificacion" required>
+                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="" name="Identificacion" required>
                                     <label for="floatingInput">NIT/Cedula de Ciudadania. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>
@@ -138,7 +117,7 @@
                         
                         <div class="row d-flex justify-content-end mb-5">
                             <div class="col-12 col-md-4 pb-3 pb-md-0 d-grid gap-2">
-                                <button type="submit" class="btn btn-dark text-white">Editar</button>
+                                <button type="submit" class="btn btn-dark text-white">Crear</button>
                             </div>
                             <div class="col-12 col-md-4 pb-3 pb-md-0 d-grid gap-2">
                                 <a href="/ndir" class="btn btn-outline-dark">Volver</a>

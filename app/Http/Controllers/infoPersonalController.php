@@ -47,11 +47,12 @@ class infoPersonalController extends Controller
             session_start();
     
             $_SESSION['USER'] = $input['identificacion'];
+            $_SESSION['T_USER'] = $input['tipoIdentificacion'];
             $cont = 0;
             do {
                 if ($cont <= 5) {
                     $user = Http::withToken($_SESSION['B1SESSION'])
-                    ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardName,EmailAddress,Phone1,Phone2&$filter=FederalTaxID eq  '."'$id'");
+                    ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry&$filter=FederalTaxID eq  '."'$id'");
                     $cont += 1;
                 } else {
                         $users = Http::post('https://10.170.20.95:50000/b1s/v1/Login',[
@@ -74,7 +75,7 @@ class infoPersonalController extends Controller
             $user = $user->json();
     
             if (!isset($user['value']['1'])) {
-                alert()->warning('¡Atencion!','Identificacion no existe o tipo de documento incorrecto.');
+                alert()->warning('¡Atencion!','Identificación no existe o tipo de identificación incorrecto.');
     
     
                 return view('welcome');
@@ -94,7 +95,7 @@ class infoPersonalController extends Controller
             do {
                 if ($cont <= 5) {
                     $user = Http::withToken($_SESSION['B1SESSION'])
-                    ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardName,EmailAddress,Phone1,Phone2&$filter=FederalTaxID eq  '."'$id'");
+                    ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry&$filter=FederalTaxID eq  '."'$id'");
                     $cont += 1;
                 } else {
                     $users = Http::post('https://10.170.20.95:50000/b1s/v1/Login',[
@@ -117,7 +118,7 @@ class infoPersonalController extends Controller
             $user = $user->json();
     
             if (!isset($user['value']['0'])) {
-                alert()->warning('¡Atencion!','Identificacion no existe o tipo de documento incorrecto.');
+                alert()->warning('¡Atencion!','Identificación no existe o tipo de identificación incorrecto.');
     
     
                 return view('welcome');

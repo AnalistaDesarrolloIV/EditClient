@@ -7,7 +7,7 @@
     <div class="container-fluid mt-5">    
         <div class="row justify-center align-items-center ">
             <div class="col-12">
-                <div class="row op rounded p-4">
+                <div class="row op rounded p-4 pb-2">
                 <div class="col">
                     <div class="row">
                         <div class="col-12 text-center">

@@ -1,12 +1,12 @@
 @extends('Pages.inicio.index')
-@section('tittle', 'Información contactos')
+@section('tittle', 'Contactos')
 
 @section('contenido')
 <div class="relative flex items-top justify-center min-h-screen  sm:items-center py-4 sm:pt-0">
     <div class="container-fluid mt-5">    
         <div class="row justify-center align-items-center ">
             <div class="col-12">
-                <div class="row op rounded p-4">
+                <div class="row op rounded p-4 pb-2">
                 <div class="col">
                     <div class="row">
                         <div class="col-12 text-center">
@@ -16,7 +16,7 @@
                     <div class="row">
                         <div class="col-3 pb-4">
                             <div class="d-grid gap-2">
-                                <a href=""class="btn btn-dark" ><i class="fas fa-plus-circle"></i> Agregar contacto</a>
+                                <a href="/ncontcreate"class="btn btn-dark" ><i class="fas fa-plus-circle"></i> Agregar contacto</a>
                             </div>
                         </div>
                     </div>
@@ -29,34 +29,28 @@
                                         <thead>
                                             <tr>
                                                 <th>Acciones</th>
-                                                <th>#ID</th>
-                                                <th>Nombre Dirección</th>
-                                                <th>Dirección fisica</th>
-                                                <th>Departamento</th>
-                                                <th>Ciudad</th>
-                                                <th>Barrio/Vereda/Corregimiento</th>
-                                                <th>Municipio</th>
-                                                <th>Codigo_Postal</th>
-                                                <th>Tipo_Direccion</th>
-                                                <th>Identificacion Persona</th>
-                                                <th>Codigo persona</th>
+                                                <th>Contacto</th>
+                                                <th>Nombre Contacto</th>
+                                                <th>Correo</th>
+                                                <th>Telefono contacto</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($direccion as $key => $val)
+                                            @foreach($contactos as $key => $val)
                                             <tr>
-                                                <td class="text-center"><a href="/"><i class="fas fa-pen"></i></a></td>
-                                                <td>{{$direccion[$key]['id__']}}</td>
-                                                <td>{{$direccion[$key]['Nombre_Direccion']}}</td>
-                                                <td>{{$direccion[$key]['Direccion_fisica']}}</td>
-                                                <td>{{$direccion[$key]['Departamento']}}</td>
-                                                <td>{{$direccion[$key]['Ciudad']}}</td>
-                                                <td>{{$direccion[$key]['Barrio_Vereda_Corregimiento']}}</td>
-                                                <td>{{$direccion[$key]['Municipio']}}</td>
-                                                <td>{{$direccion[$key]['Codigo_Postal']}}-{{$direccion[$key]['Nombre_Codigo_Postal']}}</td>
-                                                <td>{{$direccion[$key]['Tipo_Direccion']}}</td>
-                                                <td>{{$direccion[$key]['Identificacion']}}</td>
-                                                <td>{{$direccion[$key]['Codigo_Cliente']}}</td>
+                                                <td class="text-center"><a href="/ncontedit/{{$contactos[$key]['Name']}}"><i class="fas fa-pen"></i></a></td>
+                                                <td>{{$contactos[$key]['Name']}}</td>
+                                                <td>{{$contactos[$key]['FirstName']." ". $contactos[$key]['MiddleName']." ". $contactos[$key]['LastName']}}</td>
+                                                <td>{{$contactos[$key]['E_Mail']}}</td>
+                                                <td>
+                                                    @if(isset($contactos[$key]['Phone1']))
+                                                        {{$contactos[$key]['Phone1']}}
+                                                    @elseif(isset($contactos[$key]['Phone2']))
+                                                        {{$contactos[$key]['Phone2']}}
+                                                    @else
+                                                        {{$contactos[$key]['MobilePhone']}}
+                                                    @endif
+                                                </td>
                                             </tr>
                                             @endforeach
                                         </tbody>

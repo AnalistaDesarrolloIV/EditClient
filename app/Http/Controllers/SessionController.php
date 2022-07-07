@@ -13,18 +13,27 @@ class SessionController extends Controller
             'CompanyDB' => 'INVERSIONES0804',
             'UserName' => 'Prueba',
             'Password' => '1234',
-        ])->json();
-        // dd($users);
-        if (isset( $users['SessionId'])) {
-            session_start();
-            $_SESSION['B1SESSION'] = $users['SessionId'];
-    
-    
-            return view('Pages.consulta.infoPersonal');
+        ]);
+        // dd($users->status());
+        if ($users->status() == 200) {
+            // dd($users);
+            $users= $users->json();
+            if (isset( $users['SessionId'])) {
+                session_start();
+                $_SESSION['B1SESSION'] = $users['SessionId'];
+                $_SESSION['ROUTEID']= "node1";
+        
+        
+                return view('Pages.consulta.infoPersonal');
+            }else {
+                alert()->warning('¡Atencion!','Ingreso fallido.');
+                return redirect('/');
+            }
         }else {
-            alert()->warning('¡Atencion!','Ingreso fallido.');
+            alert()->warning('¡Atencion!','Ingreso fallido, por favor verifique su conexión.');
             return redirect('/');
         }
+        
 
         
     }

@@ -30,7 +30,7 @@
             <div class="relative flex items-top justify-center min-h-screen  sm:items-center py-4 sm:pt-0">
                 <div class="container-fluid">    
                     <div class="row justify-center align-items-center ">
-                        <div class="col-6">
+                        <div class="col-md-6 col-sm-10 col-11">
                             <div class="row op rounded p-4">
                             <div class="col">
                                 <div class="row">
@@ -59,10 +59,10 @@
                                     </div>
                                     
                                     <div class="row d-flex justify-content-end mb-5">
-                                        <div class="col-12 col-md-4 pb-3 pb-md-0 d-grid gap-2">
+                                        <div class="col-12 col-sm-6 col-lg-4 pb-3 pb-md-0 d-grid gap-2">
                                             <button type="submit" class="btn btn-dark text-white"><i class="fas fa-search"></i> Consultar</button>
                                         </div>
-                                        <div class="col-12 col-md-4 pb-3 pb-md-0 d-grid gap-2">
+                                        <div class="col-12 col-sm-6 col-lg-4 pb-3 pb-md-0 d-grid gap-2">
                                             <a href="/" class="btn btn-outline-dark"><i class="fas fa-door-closed"></i> Reingresar</a>
                                         </div>
                                     </div>

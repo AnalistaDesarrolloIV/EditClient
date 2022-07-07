@@ -27,9 +27,16 @@ Route::post('/npersonaledit', [NaturalController::class, 'editPersonal'])->name(
 
 Route::get('/ndir', [NaturalController::class, 'infoDirecciones'])->name('infoDirecciones');
 Route::get('/ndircreate', [NaturalController::class, 'createDireccion'])->name('createDireccion');
+Route::post('/storeDireccion', [NaturalController::class, 'storeDireccion'])->name('storeDireccion');
 Route::get('/ndiredit/{id}', [NaturalController::class, 'EditDirecciones'])->name('EditDirecciones');
+Route::get('/ndirupdate/{id}', [NaturalController::class, 'updateDirecciones'])->name('updateDirecciones');
 
 Route::get('/ncont', [NaturalController::class, 'infoContactos'])->name('infoContactos');
+Route::get('/ncontcreate', [NaturalController::class, 'createContacto'])->name('createContacto');
+Route::post('/storeContacto', [NaturalController::class, 'storeContacto'])->name('storeContacto');
+Route::get('/ncontedit/{name}', [NaturalController::class, 'EditContacto'])->name('EditContacto');
+Route::post('/ncontupdate/{name}', [NaturalController::class, 'updateContacto'])->name('updateContacto');
+
 
 
 Route::resources([

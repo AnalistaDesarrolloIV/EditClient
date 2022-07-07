@@ -30,7 +30,7 @@
            
         <div class="container-fluid">     
                 <div class="row justify-center align-items-center ">
-                    <div class="col-6">
+                    <div class=" col-md-6 col-sm-10 col-11">
                         <div class="row op rounded p-4">
                             <div class="col-12">
                                 <div class="row">

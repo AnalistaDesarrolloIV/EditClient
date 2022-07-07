@@ -1,5 +1,5 @@
 @extends('Pages.inicio.index')
-@section('tittle', 'Información personal')
+@section('tittle', 'Editar Dirección')
 
 @section('contenido')
 <div class="relative flex items-top justify-center min-h-screen  sm:items-center py-4 sm:pt-0">
@@ -19,7 +19,7 @@
                             <input type="hidden" value="{{$dire['id__']}}" name="id__">
                             <div class="col-12">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{$dire['Nombre_Direccion']}}" name="FACTURA" required >
+                                    <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{$dire['Nombre_Direccion']}}" name="Nombre_Direccion" required >
                                     <label for="floatingInput">Nombre Dirección. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                                 @error('Nombre_Direccion')
@@ -27,7 +27,7 @@
                                 @enderror
                             </div>
                             
-                            <div class="col-3">
+                            <div class="col-md-6 col-lg-3">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="select_tipo" onchange="tipocalle()">
                                         <option value="0">tipo de calle</option>
@@ -37,33 +37,33 @@
                                     <label for="select_tipo">Tipo de calle.</label>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-md-6 col-lg-3">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="num_calle" placeholder="name@example.com" onchange="numerocalle()" >
                                     <label for="num_calle" id="textonumero">Numero <b></b>.</label>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-md-6 col-lg-3">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="numero_lugar" placeholder="name@example.com" onchange="num_lugar()" >
                                     <label for="numero_lugar">Numero lugar.</label>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-md-6 col-lg-3">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="numero_local" placeholder="name@example.com" onchange="num_local()">
                                     <label for="numero_local">Numero lugar local.</label>
                                 </div>
                             </div>
 
-                            <div class="col-6">
+                            <div class="col-md-6">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="direccion_completa" placeholder="name@example.com" value="{{$dire['Direccion_fisica']}}" name="Direccion_fisica" readonly required>
                                     <label for="direccion_completa">Dirección fisica. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>
 
-                            <div class="col-6">
+                            <div class="col-md-6">
                                 <div class="form-floating mb-3">
                                     <select class="form-select select2" id="floatingInput"  placeholder="name@example.com" name="Departamento" required>
                                         @if(isset($dire['Departamento']))
@@ -80,7 +80,7 @@
                                 </div>
                             </div>
                             
-                            <div class="col-6">
+                            <div class="col-md-6">
                                 <div class="form-floating mb-3">
                                     <select class="form-select select2" id="ciudades"  placeholder="name@example.com" name="Ciudad" required>
                                         @if(isset($dire['Ciudad']))
@@ -100,7 +100,7 @@
                             </div>
                             
                             
-                            <div class="col-6">
+                            <div class="col-md-6">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$dire['Barrio_Vereda_Corregimiento']}}" name="Barrio_Vereda_Corregimiento" required>
                                     <label for="floatingInput">Barrio/vereda/corregimiento. <b style="font-size: 18px; color: red;">*</b></label>

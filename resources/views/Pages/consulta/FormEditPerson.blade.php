@@ -16,6 +16,7 @@
                     <form action="npersonaledit" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
+                            <input type="hidden" value="{{$usuario['AttachmentEntry']}}" name="AttachmentEntry">
                             <div class="col-md-6 col-12">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$usuario['CardCode']}}" name="CardCode" readonly>

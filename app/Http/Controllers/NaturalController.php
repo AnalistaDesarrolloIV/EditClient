@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class NaturalController extends Controller
 {
-
-    // --------------------------------------INFORMACION PERSONAL---------------------------------------------------------
+// --------------------------------------INFORMACION PERSONAL---------------------------------------------------------
     public function infoPersonal()
     {
         
@@ -88,22 +87,41 @@ class NaturalController extends Controller
         session_start();
         $id = $_SESSION['CODUSER'];
         if (isset($input['IdentificacionArch'])) {
-            $img = $request->file('IdentificacionArch')->store('public');
-            $url = Storage::url($img);
-            dd(url());
-            dd($url);
-            do {
-                $doc = Http::withToken($_SESSION['B1SESSION'])
-                ->post('https://10.170.20.95:50000/b1s/v1/Attachments2', [
-                    'Attachments2_Lines'=> [[
-                            'FileExtension'=> 'pdf',
-                            'FileName'=> 'doc'.$_SESSION['CODUSER'],
-                            'SourcePath'=> $url
-                        ]]
-                ]);
-            } while ($doc->clientError());
-            $document = $doc->json();
-            $id_doc = $document['AbsoluteEntry'];
+            if (isset($input['AttachmentEntry'])) {
+                $AttachmentEntry = $input['AttachmentEntry'];
+                // dd($AttachmentEntry);
+                $arch = $request->file('IdentificacionArch');
+                $nombre =  time()."-".$_SESSION['CODUSER']."-".$arch->getClientOriginalName();
+                $arch->move(public_path().'/docs/', $nombre);
+                $ruta = url('')."/docs/";
+                do {
+                    $doc = Http::withToken($_SESSION['B1SESSION'])
+                    ->patch('https://10.170.20.95:50000/b1s/v1/Attachments2'."($AttachmentEntry)", [
+                        'Attachments2_Lines'=> [[
+                                'FileName'=> $nombre,
+                                'SourcePath'=> "C:\Users\juan.atehortua\Desktop\ensayos\EditDates\public\docs"
+                            ]]
+                    ]);
+                } while (!$doc->json() == null);
+                $id_doc = $AttachmentEntry;
+
+            }else {
+                $arch = $request->file('IdentificacionArch');
+                $nombre = $_SESSION['CODUSER']."-".$arch->getClientOriginalName();
+                $arch->move(public_path().'/docs/', $nombre);
+                $ruta = url('')."/docs/";
+                do {
+                    $doc = Http::withToken($_SESSION['B1SESSION'])
+                    ->post('https://10.170.20.95:50000/b1s/v1/Attachments2', [
+                        'Attachments2_Lines'=> [[
+                                'FileName'=> $nombre,
+                                'SourcePath'=> "C:\Users\juan.atehortua\Desktop\ensayos\EditDates\public\docs"
+                            ]]
+                    ]);
+                } while ($doc->clientError());
+                $document = $doc->json();
+                $id_doc = $document['AbsoluteEntry'];
+            }
             do {
                 $insert = Http::withToken($_SESSION['B1SESSION'])
                 ->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners'."('$id')", [
@@ -139,8 +157,7 @@ class NaturalController extends Controller
 
     }
 
-
-    // -----------------------------------------------DIRECCIONES------------------------------------------------------
+// ------------------------------------------DIRECCIONES--------------------------------------------------------------
 
     public function infoDirecciones()
     {
@@ -189,27 +206,32 @@ class NaturalController extends Controller
     public function storeDireccion(Request $request)
     {
         $input = $request->all();
-        dd($input);
+        // dd($input);
         session_start();
         $id = $_SESSION['CODUSER'];
 
-        $create = Http::withToken($_SESSION['B1SESSION'])->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners',"('$id')".'?$select=BPAddresses', [
-            'Nombre_Direccion'=> $input['Nombre_Direccion'],
-            'Direccion_fisica'=> $input['Direccion_fisica'],
-            'Departamento'=> $input['Departamento'],
-            'Ciudad'=> $input['Ciudad'],
-            'Barrio_Vereda_Corregimiento'=> $input['Barrio_Vereda_Corregimiento'],
-
-
-            'Municipio'=> $input[''], /*----falta----*/
-
-            'Municipio_nombre'=> $input['Ciudad'],
-            'Codigo_Postal'=> $input[''],/*----falta----*/
-            'Nombre_Codigo_Postal'=> $input['Nombre_Direccion'],/*----falta----*/
-
-            'Identificacion'=> $_SESSION['USER'],
-            'Codigo_Cliente'=> $_SESSION['CODUSER'],
-        ]);
+        do {
+            $create = Http::withToken($_SESSION['B1SESSION'])->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners'."('$id')".'?$select=BPAddresses', [
+                'BPAddresses'=> [
+                    [   
+                        "AddressName"=> $input['Nombre_Direccion'],
+                        "Street"=> $input['Direccion_fisica'],
+                        "Block"=> $input['Barrio_Vereda_Corregimiento'],
+                        "ZipCode"=> "250030",
+                        "City"=> $input['Ciudad'],
+                        "County"=> $input['Departamento'],
+                        "State"=> "001",
+                        "BPCode"=> $_SESSION['CODUSER'],
+                        "FederalTaxID"=> $_SESSION['USER'],
+                        "U_HBT_MunMed"=> $input['Codigo_Postal']
+                    ]
+                ],
+            ]);
+        } while (!$create->json() == null);
+        
+        // dd($create->json());
+            alert()->success('Dirección','Dirección creada exitosamente.');
+        return Redirect('/ndir');
     }
 
 
@@ -222,7 +244,7 @@ class NaturalController extends Controller
             do {
                 if ($cont <= 5) {
                     $dir = Http::withToken($_SESSION['B1SESSION'])
-                    ->get('https://10.170.20.95:50000/b1s/v1/sml.svc/DIRECCIONES?$filter = Codigo_Cliente eq '."'$codigo'");
+                    ->get('https://10.170.20.95:50000/b1s/v1/sml.svc/DIRECCIONES?$filter=Codigo_Cliente eq '."'$codigo'"."and LineNum eq "."'$id'");
                     $cont += 1;
                 } else {
                     $users = Http::post('https://10.170.20.95:50000/b1s/v1/Login',[
@@ -241,19 +263,51 @@ class NaturalController extends Controller
             } while ($dir->clientError());
             $dir = $dir->json();
         } while ($dir == null);
-        $direccion = $dir['value'];
-        foreach ($direccion as $key => $value) {
-            if ($direccion[$key]['id__'] == $id) {
-                $dire = $direccion[$key];
-            }
-        }
-        
+        $dire = $dir['value'][0];
+        // dd($dire);
         $dep = Http::get('https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.json')->json();
         return view('Pages.consulta.FormDireccion', compact('dire', 'dep'));
     }
 
+    public function updateDirecciones(Request $request, $id)
+    {
+        $input = $request->all();
+        // dd($input);
+        session_start();
+        $cod = $_SESSION['CODUSER'];
+        $AddressName= strtoupper($input['Nombre_Direccion']);
+        $Block= strtoupper($input['Barrio_Vereda_Corregimiento']);
+        $City= strtoupper($input['Ciudad']);
+        $County= strtoupper($input['Departamento']);
 
-// ----------------------------------------------------------CONTACTOS-------------------------------------------------------------
+        // dd($AddressName,$Block,$City,$County);
+        do {
+            $update = Http::withToken($_SESSION['B1SESSION'])->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners'."('$cod')".'?$select=BPAddresses', [
+                'BPAddresses'=> [
+                    [   
+                        "AddressName"=> $AddressName,
+                        "Street"=> $input['Direccion_fisica'],
+                        "Block"=> $Block,
+                        "ZipCode"=> "250030",
+                        "City"=> $City,
+                        "County"=> $County,
+                        "State"=> "001",
+                        "BPCode"=> $_SESSION['CODUSER'],
+                        "FederalTaxID"=> $_SESSION['USER'],
+                        "RowNum"=> $id,
+                        "U_HBT_MunMed"=> $input['Codigo_Postal']
+                    ]
+                ],
+            ]);
+        } while (!$update->json() == null);
+        
+        // dd($update->json());
+            alert()->success('Dirección','Dirección Editada exitosamente.');
+        return Redirect('/ndir');
+    }
+
+
+// -------------------------------------------CONTACTOS---------------------------------------------------------------
 
 
     public function infoContactos()

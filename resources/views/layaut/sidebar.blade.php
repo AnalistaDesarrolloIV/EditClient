@@ -1,61 +1,4 @@
-<!-- <div class="row fixed-top"> -->
-    <!-- <div class="col"> -->
-        <!-- <nav class="navbar navbar-expand-lg bg-img">
-            <div class="container-fluid">
-                <a class="navbar-brand text-white" href="{{ route('info.index')}}">
-                    <img src="../img/Logo.png" width="80rem" alt="">
-                </a>
-            
-                <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link text-white" aria-current="page" href="/npersonal"><i class="fas fa-user-edit"></i> Personal</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link text-white" href="/ndir"><i class="fas fa-map-marked-alt"></i> Direcciones</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link text-white" href="/ncont"><i class="fas fa-address-book"></i> Contactos</a>
-                    </li>
-                    
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link text-white" aria-current="page" href="/"><i class="fas fa-search-plus"></i> Nueva consulta</a>
-                    </li>
-                </ul>
-                </div>
-            </div>
-        </nav> -->
-<!-- 
-        <nav class="navbar navbar-expand-lg bg-img">
-            <div class="container-fluid">
-                <a class="navbar-brand text-white" href="{{ route('info.index')}}">
-                    <img src="../img/Logo.png" width="80rem" alt="">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" aria-current="page" href="/npersonal"><i class="fas fa-user-edit"></i> Personal</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="/ndir"><i class="fas fa-map-marked-alt"></i> Direcciones</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="/ncont"><i class="fas fa-address-book"></i> Contactos</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" aria-current="page" href="/"><i class="fas fa-search-plus"></i> Nueva consulta</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav> -->
+
         <nav class="navbar navbar-light bg-img fixed-top">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ route('info.index')}}">
@@ -86,13 +29,7 @@
                             <a class="nav-link text-dark px-3" aria-current="page" href="/"><i class="fas fa-search-plus"></i> Nueva consulta</a>
                         </li>
                     </ul>
-                    <!-- <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form> -->
                 </div>
                 </div>
             </div>
         </nav>
-    <!-- </div> -->
-<!-- </div> -->

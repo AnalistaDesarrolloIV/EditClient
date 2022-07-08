@@ -37,21 +37,19 @@
                                                 <th>Ciudad</th>
                                                 <th>Barrio/Vereda/Corregimiento</th>
                                                 <th>Municipio</th>
-                                                <th>Codigo_Postal</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($direccion as $key => $val)
                                             <tr>
-                                                <td class="text-center"><a href="/ndiredit/{{$direccion[$key]['id__']}}"><i class="fas fa-pen"></i></a></td>
-                                                <td>{{$direccion[$key]['id__']}}</td>
+                                                <td class="text-center"><a href="/ndiredit/{{$direccion[$key]['LineNum']}}"><i class="fas fa-pen"></i></a></td>
+                                                <td>{{$direccion[$key]['LineNum']}}</td>
                                                 <td>{{$direccion[$key]['Nombre_Direccion']}}</td>
                                                 <td>{{$direccion[$key]['Direccion_fisica']}}</td>
                                                 <td>{{$direccion[$key]['Departamento']}}</td>
                                                 <td>{{$direccion[$key]['Ciudad']}}</td>
                                                 <td>{{$direccion[$key]['Barrio_Vereda_Corregimiento']}}</td>
-                                                <td>{{$direccion[$key]['Municipio']}}--{{$direccion[$key]['Municipio_nombre']}}</td>
-                                                <td>{{$direccion[$key]['Codigo_Postal']}}--{{$direccion[$key]['Nombre_Codigo_Postal']}}</td>
+                                                <td>{{$direccion[$key]['Municipio']}}--{{$direccion[$key]['Ciudad']}}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>

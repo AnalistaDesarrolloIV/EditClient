@@ -56,6 +56,12 @@ return [
             'throw' => false,
         ],
 
+        'ftp' => [
+            'driver'   => 'ftp',
+            'host'     => '192.168.0.210',
+            'root' => 'Folder1/Folder2/2020',
+        ],
+
     ],
 
     /*

@@ -2,7 +2,6 @@
 @section('tittle', 'Crear Dirección')
 
 @section('contenido')
-{{session_start();}}
 <div class="relative flex items-top justify-center min-h-screen  sm:items-center py-2 sm:pt-0">
     <div class="container-fluid mt-3">    
         <div class="row justify-center align-items-center ">
@@ -17,7 +16,17 @@
                     <form action="/storeDireccion" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" id="tipo_d"  placeholder="name@example.com" name="AddressType" required>
+                                        <option value="">Tipo de dirección.</option>
+                                        <option value="bo_BillTo">Direccion de facturación.</option>
+                                        <option value="bo_ShipTo">Direccion de envío.</option>
+                                    </select>
+                                    <label for="tipo_d">Tipo de dirección.</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="" name="Nombre_Direccion"  required>
                                     <label for="floatingInput">Nombre Dirección. <b style="font-size: 18px; color: red;">*</b></label>
@@ -26,20 +35,26 @@
                                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
-
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
                                     <select class="form-select select2" id="depar"  placeholder="name@example.com" onchange="citys()" name="Departamento" required>
                                         <option value="">Departamento</option>
-                                        @foreach($dep as $key => $value)
-                                            <option value="{{$dep[$key]['departamento']}}">{{$dep[$key]['departamento']}}</option>
+                                        <!-- @foreach($dep as $key => $value)
+                                            <option value="{{$dep[$key]['U_NomDepartamento']}}">{{$dep[$key]['U_NomDepartamento']}}</option>
+                                        @endforeach -->
+                                        {{$depa = ''}}
+                                        @foreach($dep as $key => $val)
+
+                                            @if($depa != $dep[$key]['U_NomDepartamento'])
+                                                <option value="{{$dep[$key]['U_NomDepartamento']}}">{{$dep[$key]['U_NomDepartamento']}}</option>
+                                            @endif
+
+                                            {{$depa = $dep[$key]['U_NomDepartamento']}}
                                         @endforeach
                                     </select>
                                     <label for="depar">Departamento.</label>
                                 </div>
                             </div>
-                            
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
                                     <select class="form-select select2" id="ciudades"  placeholder="name@example.com" name="Ciudad" required>
@@ -49,8 +64,6 @@
                                 </div>
                                 
                             </div>
-                            
-                            
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="" name="Barrio_Vereda_Corregimiento" required>
@@ -59,14 +72,15 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
-                                    <select class="form-select" id="floatingSelectGrid" name="Codigo_Postal" required>
-                                        <option value="1">250030-Madrid, Cundinamarca</option>
-                                        <option value="2">250030-Madrid, Cundinamarca</option>
+                                    <select class="form-select select2" id="floatingSelectGrid" name="Codigo_Postal" required>
+                                        <option value="">Codigo postal.</option>
+                                        @foreach ($postal as $key => $val)
+                                            <option value="{{$postal[$key]['Code']}}">{{$postal[$key]['Code']}}</option>
+                                        @endforeach
                                     </select>
                                     <label for="floatingSelectGrid">Codigo postal. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>
-                            
                             <div class="col-md-6 col-lg-3">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="select_tipo" onchange="tipocalle()">
@@ -101,24 +115,13 @@
                                     <label for="direccion_completa">Dirección fisica. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>
-                            
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$_SESSION['USER']}}" name="Identificacion" required>
+                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$_SESSION['USER']}}" name="Identificacion" readonly required>
                                     <label for="floatingInput">NIT/Cedula de Ciudadania. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>
-                            
-                            <!-- <div class="col-md-6">
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" id="paises" name="" required>
-
-                                    </select>
-                                    <label for="paises">Pais. <b style="font-size: 18px; color: red;">*</b></label>
-                                </div>
-                            </div> -->
                         </div>
-                        
                         <div class="row d-flex justify-content-end mb-4">
                             <div class="col-12 col-md-4 pb-3 pb-md-0 d-grid gap-2">
                                 <button type="submit" class="btn btn-dark text-white">Crear</button>
@@ -139,48 +142,28 @@
 
 @section('script')
 <script>
-    
-    // fetch('https://raw.githubusercontent.com/millan2993/countries/master/json/countries.json')
-    // .then((res) => {
-    //   return res.json();
-    // }).then((array) => {
-    //     console.log(array['countries']);
-    //     array['countries'].forEach(element => {
-    //         $('#paises').append($('<option>').val(element['id']).text(element['name']))
-    //     });
-    //     let depa = $('#depar option:selected' ).text();
-    //     array.forEach( element => {
-    //         if (element['departamento'] == depa) {
-    //             console.log(element['departamento']);
-    //                 $('#ciudades').text($('<option>').val('').text(''));
-    //                 $('#ciudades').append($('<option>').val('').text('Municipio.'));
-    //                 element['ciudades'].forEach(city => {
-    //                     $('#ciudades').append($('<option>').val(city).text(city));
-    //                 });
-    //         }
-    //     });
-    //  } )
 
 function citys() {
-    
-    fetch('https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.json')
-    .then((res) => {
-      return res.json();
-    }).then((array) => {
+    var array = '<?php echo json_encode($dep)?>';
+
+    let arreglo = JSON.parse(array);
+
+    $('#ciudades').text($('<option>').val('').text(''));
+    $('#ciudades').append($('<option>').val('').text('Municipio'));
+
+    arreglo.forEach(element => {
+        
         let depa = $('#depar option:selected' ).text();
-        array.forEach( element => {
-            if (element['departamento'] == depa) {
-                console.log(element['departamento']);
-                    $('#ciudades').text($('<option>').val('').text(''));
-                    $('#ciudades').append($('<option>').val('').text('Municipio.'));
-                    element['ciudades'].forEach(city => {
-                        $('#ciudades').append($('<option>').val(city).text(city));
-                    });
-            }
-        });
-     } )
+        if (element['U_NomDepartamento'] == depa) {
+            let city = element['Name'];
+            let codigo = element['Code']
+            $('#ciudades').append($('<option>').val(codigo).text(city));
+        }
+    });
+    
      
 }
+
 
 
 function tipocalle() {

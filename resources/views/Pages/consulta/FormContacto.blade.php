@@ -13,7 +13,7 @@
                             <h1 class=""><b>EDITAR CONTACTO.</b> </h1>
                         </div>
                     </div>
-                    <form action="/ncontupdate/{{$contacto['Name']}}" method="post" enctype="multipart/form-data">
+                    <form action="/ncontupdate/{{$contacto['InternalCode']}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <input type="hidden" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{$contacto['CardCode']}}" name="CardCode" readonly required >
@@ -24,9 +24,9 @@
                                     <label for="floatingInput">Contacto. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div> -->
-                            <div class="col-12">
+                            <!-- <div class="col-12">
                                 <div class="form-floating mb-3">
-                                    <select class="form-select" id="floatingSelectGrid"  name="Name" required>
+                                    <select class="form-select" id="floatingSelectGrid"  name="Name" readonly required>
                                         <option value="{{$contacto['Name']}}" readonly>{{$contacto['Name']}}</option>
                                         <option value="Contador">Contador</option>
                                         <option value="Tesorero">Tesorero</option>
@@ -34,6 +34,12 @@
                                         <option value="Logistico">Logistico</option>
                                     </select>
                                     <label for="floatingSelectGrid">Tipo Contacto. <b style="font-size: 18px; color: red;">*</b></label>
+                                </div>
+                            </div> -->
+                            <div class="col-12">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatingInput" value="{{$contacto['Name']}}" name="Name" readonly required >
+                                    <label for="floatingInput">Tipo Contacto.</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -62,13 +68,13 @@
                             </div>
                             <div class="col-lg-2 col-md-4">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="ext1" placeholder="name@example.com" value="" name="Ext1"  required >
+                                    <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="ext1" placeholder="name@example.com" value="" name="Ext1">
                                     <label for="ext1">Extención 1. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-8">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="tel1" placeholder="name@example.com" value="" name="Phone1" required>
+                                    <input type="text" class="form-control" id="tel1" placeholder="name@example.com" value="" name="Phone1">
                                     <label for="tel1">Telefono 1. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>
@@ -92,7 +98,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$contacto['E_Mail']}}" name="E_Mail" required>
+                                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$contacto['E_Mail']}}" name="E_Mail" >
                                     <label for="floatingInput">Correo. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>

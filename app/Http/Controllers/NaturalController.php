@@ -92,7 +92,7 @@ class NaturalController extends Controller
                 // dd($AttachmentEntry);
                 $arch = $request->file('IdentificacionArch');
                 $nombre =  time()."-".$_SESSION['CODUSER']."-".$arch->getClientOriginalName();
-                $arch->move(public_path().'/docs/', $nombre);
+                // Storage::disk('ftp')->put($nombre.'/', \File::get($arch));
                 $ruta = url('')."/docs/";
                 do {
                     $doc = Http::withToken($_SESSION['B1SESSION'])
@@ -199,8 +199,23 @@ class NaturalController extends Controller
     public function createDireccion()
     {
         
-        $dep = Http::get('https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.json')->json();
-        return view('Pages.consulta.createDireccion', compact('dep'));
+        session_start();
+        do {
+            $dep = Http::withToken($_SESSION['B1SESSION'])->
+            post('https://10.170.20.95:50000/b1s/v1/SQLQueries'."('Municipios2')".'/List');
+        } while ($dep->clientError());
+
+       
+        $dep = $dep['value'];
+        // dd($dep);
+        
+        do {
+            $postal = Http::withToken($_SESSION['B1SESSION'])->
+            post('https://10.170.20.95:50000/b1s/v1/SQLQueries'."('CodigoPostales')".'/List');
+        } while ($postal->clientError());
+        $postal = $postal['value'];
+        
+        return view('Pages.consulta.createDireccion', compact('dep', 'postal'));
     }
 
     public function storeDireccion(Request $request)
@@ -208,19 +223,35 @@ class NaturalController extends Controller
         $input = $request->all();
         // dd($input);
         session_start();
+        do {
+            $dep = Http::withToken($_SESSION['B1SESSION'])->
+            post('https://10.170.20.95:50000/b1s/v1/SQLQueries'."('Municipios2')".'/List');
+        } while ($dep->clientError());
+
+       
+        $dep = $dep['value'];
+        foreach ($dep as $key => $value) {
+            if ($dep[$key]['Code'] == $input['Ciudad'] ) {
+                $ciudad_name = $dep[$key]['Name'];
+            }
+        }
+        
         $id = $_SESSION['CODUSER'];
+        $AddressName= strtoupper($input['Nombre_Direccion']);
+        $Block= strtoupper($input['Barrio_Vereda_Corregimiento']);
 
         do {
             $create = Http::withToken($_SESSION['B1SESSION'])->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners'."('$id')".'?$select=BPAddresses', [
                 'BPAddresses'=> [
                     [   
-                        "AddressName"=> $input['Nombre_Direccion'],
+                        "AddressName"=> $AddressName,
                         "Street"=> $input['Direccion_fisica'],
-                        "Block"=> $input['Barrio_Vereda_Corregimiento'],
-                        "ZipCode"=> "250030",
-                        "City"=> $input['Ciudad'],
+                        "Block"=> $Block,
+                        "ZipCode"=> $input['Ciudad'],
+                        "City"=> $ciudad_name,
                         "County"=> $input['Departamento'],
                         "State"=> "001",
+                        "AddressType" => $input['AddressType'],
                         "BPCode"=> $_SESSION['CODUSER'],
                         "FederalTaxID"=> $_SESSION['USER'],
                         "U_HBT_MunMed"=> $input['Codigo_Postal']
@@ -265,22 +296,45 @@ class NaturalController extends Controller
         } while ($dir == null);
         $dire = $dir['value'][0];
         // dd($dire);
-        $dep = Http::get('https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.json')->json();
-        return view('Pages.consulta.FormDireccion', compact('dire', 'dep'));
+        do {
+            $dep = Http::withToken($_SESSION['B1SESSION'])->
+            post('https://10.170.20.95:50000/b1s/v1/SQLQueries'."('Municipios2')".'/List');
+        } while ($dep->clientError());
+
+        $dep = $dep['value'];
+        
+        do {
+            $postal = Http::withToken($_SESSION['B1SESSION'])->
+            post('https://10.170.20.95:50000/b1s/v1/SQLQueries'."('CodigoPostales')".'/List');
+        } while ($postal->clientError());
+        $postal = $postal['value'];
+        
+        return view('Pages.consulta.FormDireccion', compact('dire', 'dep', 'postal'));
     }
 
     public function updateDirecciones(Request $request, $id)
     {
         $input = $request->all();
         // dd($input);
-        session_start();
+        session_start(); 
+        do {
+            $dep = Http::withToken($_SESSION['B1SESSION'])->
+            post('https://10.170.20.95:50000/b1s/v1/SQLQueries'."('Municipios2')".'/List');
+        } while ($dep->clientError());
+
+       
+        $dep = $dep['value'];
+        foreach ($dep as $key => $value) {
+            if ($dep[$key]['Code'] == $input['Ciudad'] ) {
+                $ciudad_name = $dep[$key]['Name'];
+            }
+        }
+        // dd($ciudad_name);
+
         $cod = $_SESSION['CODUSER'];
         $AddressName= strtoupper($input['Nombre_Direccion']);
         $Block= strtoupper($input['Barrio_Vereda_Corregimiento']);
-        $City= strtoupper($input['Ciudad']);
-        $County= strtoupper($input['Departamento']);
 
-        // dd($AddressName,$Block,$City,$County);
         do {
             $update = Http::withToken($_SESSION['B1SESSION'])->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners'."('$cod')".'?$select=BPAddresses', [
                 'BPAddresses'=> [
@@ -288,10 +342,11 @@ class NaturalController extends Controller
                         "AddressName"=> $AddressName,
                         "Street"=> $input['Direccion_fisica'],
                         "Block"=> $Block,
-                        "ZipCode"=> "250030",
-                        "City"=> $City,
-                        "County"=> $County,
+                        "ZipCode"=> $input['Ciudad'],
+                        "City"=> $ciudad_name,
+                        "County"=> $input['Departamento'],
                         "State"=> "001",
+                        "AddressType" => $input['AddressType'],
                         "BPCode"=> $_SESSION['CODUSER'],
                         "FederalTaxID"=> $_SESSION['USER'],
                         "RowNum"=> $id,
@@ -388,7 +443,7 @@ class NaturalController extends Controller
             foreach ($contact as $key => $value) {
                 if ($contact[$key]['Name'] == $com) {
                     $com = $input['Name'];
-                    $com = $com.$ccont;
+                    $com = strtoupper($com.$ccont);
                     $ccont= $ccont+1;
                 }
             }
@@ -474,7 +529,7 @@ class NaturalController extends Controller
             $contact = $contact->json();
             $contact = $contact['ContactEmployees'];
             $ccont = 0;
-            $com = $input['Name'];
+            $com = strtoupper($input['Name']);
             foreach ($contact as $key => $value) {
                 if ($contact[$key]['Name'] == $com) {
                     alert()->error('¡Atencion!','Tipo de contacto ya creado.');
@@ -585,58 +640,41 @@ class NaturalController extends Controller
         return view('Pages.consulta.FormContacto',compact('contacto'));
     }
 
-    public function updateContacto(Request $request, $name)
+    public function updateContacto(Request $request, $id)
     {
         $input = $request->all();
+        // dd($input);
         session_start();
+        
         $cod = $_SESSION['CODUSER'];
-        $cont = 0;
+        $Name= strtoupper($input['Name']);
+        $FirstName= strtoupper($input['FirstName']);
+        $MiddleName= strtoupper($input['MiddleName']);
+        $LastName=  strtoupper($input['LastName']);
+        $Profession= strtoupper($input['Profession']);
+
         do {
-            do {
-                if ($cont <= 5) {
-                    $contact = Http::withToken($_SESSION['B1SESSION'])
-                    ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners'."('$cod')".'?$select=ContactEmployees');
-                    $cont = $cont + 1;
-                } else {
-                    $users = Http::post('https://10.170.20.95:50000/b1s/v1/Login',[
-                        'CompanyDB' => 'INVERSIONES0804',
-                        'UserName' => 'Prueba',
-                        'Password' => '1234',
-                    ])->json();
-                    if (isset( $users['SessionId'])) {
-                        $_SESSION['B1SESSION'] = $users['SessionId'];
-                    }else {
-                        alert()->warning('¡Atencion!','Ingreso fallido.');
-                        return redirect('/');
-                    }
-                    $cont = 0;
-                }
-            } while ($contact->clientError());
-            $contact = $contact->json();
-        } while ($contact == null);
-        $contactos= $contact['ContactEmployees'];
+            $update = Http::withToken($_SESSION['B1SESSION'])->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners'."('$cod')", [
+                    "ContactEmployees"=> [
+                        [
+                            "InternalCode"=> $id,
+                            "CardCode"=> $cod,
+                            "Name"=> $Name,
+                            "FirstName"=> $FirstName,
+                            "MiddleName"=> $MiddleName,
+                            "LastName"=>  $LastName,
+                            "Phone1"=>  "( ".$input['Ext1']." )- ".$input['Phone1'],
+                            "Phone2"=> "( ".$input['Ext2']." )- ". $input['Phone2'],
+                            "MobilePhone"=> $input['MobilePhone'],
+                            "E_Mail"=> $input['E_Mail'],
+                            "Profession"=> $Profession
+                        ]
+                    ]   
+            ]);
+        } while (!$update->json() == null);
         
-        foreach ($contactos as $key => $value) {
-            if ($contactos[$key]['Name'] == $name) {
-                $contacto = $contactos[$key];
-            }
-        };
-        $contacto->update([
-            'ContactEmployees'=> [[
-                    'Name'=> $input['Name'],
-                    'FirstName'=> $input['FirstName'],
-                    'MiddleName'=>  $input['MiddleName'],
-                    'LastName'=>  $input['LastName'],
-                    'Phone1'=>  "( ".$input['Ext1']." ) ".$input['Phone1'],
-                    'Phone2'=> '',
-                    'MobilePhone'=>  $input['MobilePhone'],
-                    'E_Mail' =>  $input['E_Mail'],
-                    'Profession'=>  $input['Profession']
-            ]]
-        ]);
-        dd($contacto);
-        
-        return view('Pages.consulta.FormContacto',compact('contacto'));
+        alert()->success('Contacto','Contacto editado exitosamente.');
+        return Redirect('/ncont');
     }
 }
 

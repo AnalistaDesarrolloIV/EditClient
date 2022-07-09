@@ -3,27 +3,32 @@
 @section('tittle', 'Direcciones')
 
 @section('contenido')
-<div class="relative flex items-top justify-center min-h-screen  sm:items-center py-4 sm:pt-0">
+<div class="relative flex items-top justify-center min-h-screen  sm:items-center sm:pt-0">
     <div class="container-fluid mt-5">    
         <div class="row justify-center align-items-center ">
             <div class="col-12">
-                <div class="row op rounded p-4 pb-2">
-                <div class="col">
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <h1 class=""><b>DIRECCIONES.</b> </h1>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3 pb-4">
-                            <div class="d-grid gap-2">
-                                <a href="/ndircreate" class="btn btn-dark" ><i class="fas fa-plus-circle"></i> Agregar dirección</a>
+                <div class="row op rounded p-4 pb-2 mt-3">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h1 class=""><b>DIRECCIONES.</b> </h1>
                             </div>
                         </div>
-                    </div>
-                    <form action="" method="post">
-                        @csrf
-                        <div class="row mb-3">
+                        <div class="row">
+                            <div class="col-3 pb-4">
+                                <div class="d-grid gap-2">
+                                    <a href="/ndircreate" class="btn btn-dark" ><i class="fas fa-plus-circle"></i> Agregar dirección</a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h3><strong>Direcciones de envío.</strong></h3>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
                             <div class="col">
                                 <div class="table-responsive">
                                     <table class="table table-bordered border-dark" id="dt">
@@ -41,34 +46,68 @@
                                         </thead>
                                         <tbody>
                                             @foreach($direccion as $key => $val)
-                                            <tr>
-                                                <td class="text-center"><a href="/ndiredit/{{$direccion[$key]['LineNum']}}"><i class="fas fa-pen"></i></a></td>
-                                                <td>{{$direccion[$key]['LineNum']}}</td>
-                                                <td>{{$direccion[$key]['Nombre_Direccion']}}</td>
-                                                <td>{{$direccion[$key]['Direccion_fisica']}}</td>
-                                                <td>{{$direccion[$key]['Departamento']}}</td>
-                                                <td>{{$direccion[$key]['Ciudad']}}</td>
-                                                <td>{{$direccion[$key]['Barrio_Vereda_Corregimiento']}}</td>
-                                                <td>{{$direccion[$key]['Municipio']}}--{{$direccion[$key]['Ciudad']}}</td>
-                                            </tr>
+                                                @if($direccion[$key]['Tipo_Direccion'] == "S")
+                                                    <tr>
+                                                        <td class="text-center"><a href="/ndiredit/{{$direccion[$key]['LineNum']}}"><i class="fas fa-pen"></i></a></td>
+                                                        <td>{{$direccion[$key]['LineNum']}}</td>
+                                                        <td>{{$direccion[$key]['Nombre_Direccion']}}</td>
+                                                        <td>{{$direccion[$key]['Direccion_fisica']}}</td>
+                                                        <td>{{$direccion[$key]['Departamento']}}</td>
+                                                        <td>{{$direccion[$key]['Ciudad']}}</td>
+                                                        <td>{{$direccion[$key]['Barrio_Vereda_Corregimiento']}}</td>
+                                                        <td>{{$direccion[$key]['Municipio']}}</td>
+                                                    </tr>
+                                                @endif
                                             @endforeach
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                                                
-                        <div class="row d-flex justify-content-end mb-5">
-                            <!-- <div class="col-12 col-md-4 pb-3 pb-md-0 d-grid gap-2">
-                                <button type="submit" class="btn btn-dark text-white">Editar</button>
+
+
+                        <div class="row mt-5">
+                            <div class="col-12 text-center">
+                                <h3><strong>Direcciones de facturación.</strong></h3>
                             </div>
-                            <div class="col-12 col-md-4 pb-3 pb-md-0 d-grid gap-2">
-                                <a href="{{ route('info.index')}}" class="btn btn-outline-dark">Volver</a>
-                            </div> -->
-                            
                         </div>
-                    </form>
-                </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered border-dark" id="dt_2">
+                                        <thead>
+                                            <tr>
+                                                <th>Acciones</th>
+                                                <th>#ID</th>
+                                                <th>Nombre Dirección</th>
+                                                <th>Dirección fisica</th>
+                                                <th>Departamento</th>
+                                                <th>Ciudad</th>
+                                                <th>Barrio/Vereda/Corregimiento</th>
+                                                <th>Municipio</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($direccion as $key => $val)
+                                                @if($direccion[$key]['Tipo_Direccion'] == "B")
+                                                    <tr>
+                                                        <td class="text-center"><a href="/ndiredit/{{$direccion[$key]['LineNum']}}"><i class="fas fa-pen"></i></a></td>
+                                                        <td>{{$direccion[$key]['LineNum']}}</td>
+                                                        <td>{{$direccion[$key]['Nombre_Direccion']}}</td>
+                                                        <td>{{$direccion[$key]['Direccion_fisica']}}</td>
+                                                        <td>{{$direccion[$key]['Departamento']}}</td>
+                                                        <td>{{$direccion[$key]['Ciudad']}}</td>
+                                                        <td>{{$direccion[$key]['Barrio_Vereda_Corregimiento']}}</td>
+                                                        <td>{{$direccion[$key]['Municipio']}}</td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

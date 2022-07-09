@@ -62,13 +62,13 @@
                             
                             <div class="col-lg-2 col-md-4">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="" name="Ext1"  required >
+                                    <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="" name="Ext1"   >
                                     <label for="floatingInput">Extención 1. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-8">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="" name="Phone1" required>
+                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="" name="Phone1" >
                                     <label for="floatingInput">Telefono 1. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>
@@ -92,7 +92,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" value="" name="E_Mail" required>
+                                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" value="" name="E_Mail">
                                     <label for="floatingInput">Correo. <b style="font-size: 18px; color: red;">*</b></label>
                                 </div>
                             </div>

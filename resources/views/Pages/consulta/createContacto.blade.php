@@ -25,7 +25,7 @@
                             </div> -->
                             <div class="col-12">
                                 <div class="form-floating mb-3">
-                                    <select class="form-select" id="floatingSelectGrid"  name="Name" required>
+                                    <select class="form-select @error('Name') is-invalid @enderror" id="floatingSelectGrid"  name="Name">
                                         <option value="" readonly>Selecionar</option>
                                         <option value="Contador">Contador</option>
                                         <option value="Tesorero">Tesorero</option>
@@ -33,67 +33,100 @@
                                         <option value="Logistico">Logistico</option>
                                     </select>
                                     <label for="floatingSelectGrid">Tipo Contacto. <b style="font-size: 18px; color: red;">*</b></label>
+                                @error('Name')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                                @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="" name="FirstName"  required >
+                                    <input type="text" class="form-control @error('FirstName') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{old('FirstName')}}" name="FirstName">
                                     <label for="floatingInput">Primer nombre. <b style="font-size: 18px; color: red;">*</b></label>
+                                @error('FirstName')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                                @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="" name="MiddleName"  >
+                                    <input type="text" class="form-control @error('MiddleName') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{old('MiddleName')}}" name="MiddleName">
                                     <label for="floatingInput">Segundo nombre.</label>
+                                @error('MiddleName')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                                @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="" name="LastName"  required >
+                                    <input type="text" class="form-control @error('LastName') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{old('LastName')}}" name="LastName">
                                     <label for="floatingInput">Apellidos. <b style="font-size: 18px; color: red;">*</b></label>
+                                @error('LastName')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                                @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="" name="Profession"  required >
+                                    <input type="text" class="form-control @error('Profession') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{old('Profession')}}" name="Profession">
                                     <label for="floatingInput">Cargo. <b style="font-size: 18px; color: red;">*</b></label>
+                                @error('Profession')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                                @enderror
                                 </div>
                             </div>
                             
-                            <div class="col-lg-2 col-md-4">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="" name="Ext1"   >
-                                    <label for="floatingInput">Extención 1. <b style="font-size: 18px; color: red;">*</b></label>
-                                </div>
-                            </div>
                             <div class="col-lg-4 col-md-8">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="" name="Phone1" >
-                                    <label for="floatingInput">Telefono 1. <b style="font-size: 18px; color: red;">*</b></label>
+                                    <input type="text" class="form-control @error('Phone1') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{old('Phone1')}}" name="Phone1">
+                                    <label for="floatingInput">Telefono 1.</label>
+                                @error('Phone1')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                                @enderror
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-4">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="" name="Ext2"   >
-                                    <label for="floatingInput">Extención 2.</label>
+                                    <input type="text" class="form-control @error('Ext1') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{old('Ext1')}}" name="Ext1">
+                                    <label for="floatingInput">Extension 1.</label>
+                                @error('Ext1')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                                @enderror
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-8">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="" name="Phone2">
+                                    <input type="text" class="form-control @error('Phone2') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{old('Phone2')}}" name="Phone2">
                                     <label for="floatingInput">Telefono 2.</label>
+                                @error('Phone2')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                                @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-4">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control @error('Ext2') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{old('Ext2')}}" name="Ext2">
+                                    <label for="floatingInput">Extension 2.</label>
+                                @error('Ext2')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                                @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="" name="MobilePhone" required>
+                                    <input type="text" class="form-control @error('MobilePhone') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{old('MobilePhone')}}" name="MobilePhone">
                                     <label for="floatingInput">Movil. <b style="font-size: 18px; color: red;">*</b></label>
+                                @error('MobilePhone')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                                @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" value="" name="E_Mail">
-                                    <label for="floatingInput">Correo. <b style="font-size: 18px; color: red;">*</b></label>
+                                    <input type="email" class="form-control @error('E_Mail') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{old('E_Mail')}}" name="E_Mail">
+                                    <label for="floatingInput">Correo.</label>
+                                @error('E_Mail')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                                @enderror
                                 </div>
                             </div>
                         

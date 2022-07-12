@@ -3,6 +3,7 @@
 @section('tittle', 'Direcciones')
 
 @section('contenido')
+
 <div class="relative flex items-top justify-center min-h-screen  sm:items-center sm:pt-0">
     <div class="container-fluid mt-5">    
         <div class="row justify-center align-items-center ">
@@ -22,7 +23,6 @@
                             </div>
                         </div>
 
-
                         <div class="row">
                             <div class="col-12 text-center">
                                 <h3><strong>Direcciones de envío.</strong></h3>
@@ -36,12 +36,12 @@
                                             <tr>
                                                 <th>Acciones</th>
                                                 <th>#ID</th>
-                                                <th>Nombre Dirección</th>
+                                                <th>Nombre de dirección</th>
                                                 <th>Dirección fisica</th>
                                                 <th>Departamento</th>
                                                 <th>Ciudad</th>
                                                 <th>Barrio/Vereda/Corregimiento</th>
-                                                <th>Municipio</th>
+                                                <th>Codigo postal</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -55,7 +55,7 @@
                                                         <td>{{$direccion[$key]['Departamento']}}</td>
                                                         <td>{{$direccion[$key]['Ciudad']}}</td>
                                                         <td>{{$direccion[$key]['Barrio_Vereda_Corregimiento']}}</td>
-                                                        <td>{{$direccion[$key]['Municipio']}}</td>
+                                                        <td>{{$direccion[$key]['Codigo_Postal']}}</td>
                                                     </tr>
                                                 @endif
                                             @endforeach
@@ -79,12 +79,12 @@
                                             <tr>
                                                 <th>Acciones</th>
                                                 <th>#ID</th>
-                                                <th>Nombre Dirección</th>
+                                                <th>Nombre dirección</th>
                                                 <th>Dirección fisica</th>
                                                 <th>Departamento</th>
                                                 <th>Ciudad</th>
                                                 <th>Barrio/Vereda/Corregimiento</th>
-                                                <th>Municipio</th>
+                                                <th>Codigo postal</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -98,7 +98,7 @@
                                                         <td>{{$direccion[$key]['Departamento']}}</td>
                                                         <td>{{$direccion[$key]['Ciudad']}}</td>
                                                         <td>{{$direccion[$key]['Barrio_Vereda_Corregimiento']}}</td>
-                                                        <td>{{$direccion[$key]['Municipio']}}</td>
+                                                        <td>{{$direccion[$key]['Codigo_Postal']}}</td>
                                                     </tr>
                                                 @endif
                                             @endforeach
@@ -133,4 +133,12 @@
         background-color: #212529!important;
     }
 </style>
+@endsection
+@section('script')
+<script>
+    Toast.info(
+    'Notification from the frontend...',
+    'The Title'
+    );
+</script>
 @endsection

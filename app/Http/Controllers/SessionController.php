@@ -23,8 +23,12 @@ class SessionController extends Controller
                 $_SESSION['B1SESSION'] = $users['SessionId'];
                 $_SESSION['ROUTEID']= "node1";
         
-        
-                return view('Pages.consulta.infoPersonal');
+                $tipo_d = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
+                ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries'."('TipoDoc')".'/List');
+                    
+                $tipo_d = $tipo_d->json();
+                $tipos = $tipo_d['value'];
+                return view('Pages.consulta.infoPersonal', compact('tipos'));
             }else {
                 alert()->warning('¡Atencion!','Ingreso fallido.');
                 return redirect('/');
@@ -33,8 +37,5 @@ class SessionController extends Controller
             alert()->warning('¡Atencion!','Ingreso fallido, por favor verifique su conexión.');
             return redirect('/');
         }
-        
-
-        
     }
 }

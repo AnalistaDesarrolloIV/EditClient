@@ -29,10 +29,10 @@
                                         <thead>
                                             <tr>
                                                 <th>Acciones</th>
-                                                <th>Contacto</th>
-                                                <th>Nombre Contacto</th>
+                                                <th>Tipo de contacto</th>
+                                                <th>Nombre de contacto</th>
                                                 <th>Correo</th>
-                                                <th>Telefono contacto</th>
+                                                <th>Celular de contacto</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -43,13 +43,7 @@
                                                 <td>{{$contactos[$key]['FirstName']." ". $contactos[$key]['MiddleName']." ". $contactos[$key]['LastName']}}</td>
                                                 <td>{{$contactos[$key]['E_Mail']}}</td>
                                                 <td>
-                                                    @if(isset($contactos[$key]['Phone1']))
-                                                        {{$contactos[$key]['Phone1']}}
-                                                    @elseif(isset($contactos[$key]['Phone2']))
-                                                        {{$contactos[$key]['Phone2']}}
-                                                    @else
                                                         {{$contactos[$key]['MobilePhone']}}
-                                                    @endif
                                                 </td>
                                             </tr>
                                             @endforeach

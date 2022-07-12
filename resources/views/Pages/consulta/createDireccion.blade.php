@@ -18,26 +18,29 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
-                                    <select class="form-select" id="tipo_d"  placeholder="name@example.com" name="AddressType" required>
+                                    <select class="form-select @error('AddressType') is-invalid @enderror" id="tipo_d"  placeholder="name@example.com" name="AddressType" >
                                         <option value="">Tipo de dirección.</option>
                                         <option value="bo_BillTo">Direccion de facturación.</option>
                                         <option value="bo_ShipTo">Direccion de envío.</option>
                                     </select>
                                     <label for="tipo_d">Tipo de dirección.</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="" name="Nombre_Direccion"  required>
-                                    <label for="floatingInput">Nombre Dirección. <b style="font-size: 18px; color: red;">*</b></label>
-                                </div>
-                                @error('Nombre_Direccion')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @error('AddressType')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
                                 @enderror
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
-                                    <select class="form-select select2" id="depar"  placeholder="name@example.com" onchange="citys()" name="Departamento" required>
+                                    <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{old('Nombre_Direccion')}}" name="Nombre_Direccion"  >
+                                    <label for="floatingInput">Nombre Dirección. <b style="font-size: 18px; color: red;">*</b></label>
+                                @error('Nombre_Direccion')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                                @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <select class="form-select select2 @error('Departamento') is-invalid @enderror" id="depar"  placeholder="name@example.com" onchange="citys()" name="Departamento" >
                                         <option value="">Departamento</option>
                                         <!-- @foreach($dep as $key => $value)
                                             <option value="{{$dep[$key]['U_NomDepartamento']}}">{{$dep[$key]['U_NomDepartamento']}}</option>
@@ -53,74 +56,85 @@
                                         @endforeach
                                     </select>
                                     <label for="depar">Departamento.</label>
+                                @error('Departamento')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                                @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
-                                    <select class="form-select select2" id="ciudades"  placeholder="name@example.com" name="Ciudad" required>
+                                    <select class="form-select select2 @error('Ciudad') is-invalid @enderror" id="ciudades"  placeholder="name@example.com" name="Ciudad" >
                                         <option value="">Municipio.</option>
                                     </select>
                                     <label for="ciudades">Municipio.</label>
+                                @error('Ciudad')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                                @enderror
                                 </div>
                                 
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="" name="Barrio_Vereda_Corregimiento" required>
+                                    <input type="text" class="form-control @error('Barrio_Vereda_Corregimiento') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{old('Barrio_Vereda_Corregimiento')}}" name="Barrio_Vereda_Corregimiento" >
                                     <label for="floatingInput">Barrio/vereda/corregimiento. <b style="font-size: 18px; color: red;">*</b></label>
+                                @error('Barrio_Vereda_Corregimiento')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                                @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
-                                    <select class="form-select select2" id="floatingSelectGrid" name="Codigo_Postal" required>
+                                    <select class="form-select select2 @error('Codigo_Postal') is-invalid @enderror" id="floatingSelectGrid" name="Codigo_Postal" >
                                         <option value="">Codigo postal.</option>
                                         @foreach ($postal as $key => $val)
-                                            <option value="{{$postal[$key]['Code']}}">{{$postal[$key]['Code']}}</option>
+                                            <option value="{{$postal[$key]['Code']}}">{{$postal[$key]['Code']}}--{{$postal[$key]['U_HBT_Lugar']}}</option>
                                         @endforeach
                                     </select>
                                     <label for="floatingSelectGrid">Codigo postal. <b style="font-size: 18px; color: red;">*</b></label>
+                                @error('Codigo_Postal')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                                @enderror
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="select_tipo" onchange="tipocalle()">
-                                        <option value="0">tipo de calle</option>
+                                        <option value="0">tipo de vía</option>
                                         <option value="1">CL</option>
                                         <option value="2">CRA</option>
                                     </select>
-                                    <label for="select_tipo">Tipo de calle.</label>
+                                    <label for="select_tipo">Tipo de vía.</label>
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="num_calle" placeholder="name@example.com" onchange="numerocalle()" >
-                                    <label for="num_calle" id="textonumero">Numero <b></b>.</label>
+                                    <label for="num_calle" id="textonumero">Nombre de vía - cuadrante.</label>
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="numero_lugar" placeholder="name@example.com" onchange="num_lugar()" >
-                                    <label for="numero_lugar">Numero lugar.</label>
+                                    <label for="numero_lugar">Numero de vía generadora.</label>
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="numero_local" placeholder="name@example.com" onchange="num_local()">
-                                    <label for="numero_local">Numero local.</label>
+                                    <label for="numero_local">Numero de placa.</label>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="direccion_completa" placeholder="name@example.com" value="" name="Direccion_fisica" readonly required>
+                                    <input type="text" class="form-control @error('Direccion_fisica') is-invalid @enderror" id="direccion_completa" placeholder="name@example.com" value="{{old('Direccion_fisica')}}" name="Direccion_fisica" readonly >
                                     <label for="direccion_completa">Dirección fisica. <b style="font-size: 18px; color: red;">*</b></label>
+                                @error('Direccion_fisica')
+                                    <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                                @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" value="{{$_SESSION['USER']}}" name="Identificacion" readonly required>
-                                    <label for="floatingInput">NIT/Cedula de Ciudadania. <b style="font-size: 18px; color: red;">*</b></label>
-                                </div>
-                            </div>
+                            <input type="hidden" class="form-control @error('Identificacion') is-invalid @enderror" id="floatingInput" placeholder="name@example.com" value="{{$_SESSION['USER']}}" name="Identificacion" readonly >
+                                    
                         </div>
                         <div class="row d-flex justify-content-end mb-4">
                             <div class="col-12 col-md-4 pb-3 pb-md-0 d-grid gap-2">

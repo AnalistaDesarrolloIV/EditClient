@@ -57,11 +57,43 @@ return [
         ],
 
         'ftp' => [
-            'driver'   => 'ftp',
-            'host'     => '192.168.0.210',
-            'root' => 'Folder1/Folder2/2020',
+            'driver' => 'ftp',
+            'host' => env('FTP_HOST'),
+            'username' => env('FTP_USERNAME'),
+            'password' => env('FTP_PASSWORD'),
+            'root' => env('FTP_ROOT'),
+            'passive' => true,
+            'ssl' => true,
+            'timeout' => 30,
+            // Optional FTP Settings...
+            // 'port' => env('FTP_PORT', 21),
+            // 'root' => env('FTP_ROOT'),
+            // 'passive' => true,
+            // 'ssl' => true,
+            // 'timeout' => 30,
         ],
 
+    ],
+    'sftp' => [
+        'driver' => 'sftp',
+        'host' => env('SFTP_HOST'),
+     
+        // Settings for basic authentication...
+        // 'username' => env('SFTP_USERNAME'),
+        // 'password' => env('SFTP_PASSWORD'),
+     
+        // Settings for SSH key based authentication with encryption password...
+        // 'privateKey' => env('SFTP_PRIVATE_KEY'),
+        // 'password' => env('SFTP_PASSWORD'),
+     
+        // Optional SFTP Settings...
+        // 'hostFingerprint' => env('SFTP_HOST_FINGERPRINT'),
+        // 'maxTries' => 4,
+        // 'passphrase' => env('SFTP_PASSPHRASE'),
+        // 'port' => env('SFTP_PORT', 22),
+        // 'root' => env('SFTP_ROOT', ''),
+        // 'timeout' => 30,
+        // 'useAgent' => true,
     ],
 
     /*

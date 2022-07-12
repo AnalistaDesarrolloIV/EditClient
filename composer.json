@@ -10,6 +10,10 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
+        "laraveles/spanish": "^1.5",
+        "league/flysystem-ftp": "3.0",
+        "league/flysystem-sftp-v3": "3.0",
+        "mckenziearts/laravel-notify": "^2.3",
         "realrashid/sweet-alert": "^5.1"
     },
     "require-dev": {

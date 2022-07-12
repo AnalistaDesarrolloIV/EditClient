@@ -44,8 +44,10 @@
                                         <div class="col-12">
                                         <div class="form-floating mb-3">
                                             <select class="form-select" id="floatingSelectGrid" name="tipoIdentificacion" required>
-                                                <option value="1">Nit</option>
-                                                <option value="2">CC</option>
+                                                <option value="">Tipo de documento</option>
+                                                @foreach($tipos as $key => $val)
+                                                    <option value="{{$tipos[$key]['Code']}}">{{$tipos[$key]['Name']}}</option>
+                                                @endforeach
                                             </select>
                                             <label for="floatingSelectGrid">Tipo Identificación</label>
                                             </div>

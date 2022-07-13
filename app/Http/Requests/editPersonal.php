@@ -28,7 +28,7 @@ class editPersonal extends FormRequest
             'Phone2'=>['nullable','numeric',],
             'EmailAddress'=>['required','email', 'regex:/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i'],
             'EmailAddress2'=>['required','email', 'regex:/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i'],
-            'IdentificacionArch'=>['mimes:pdf']
+            'Archivos'=>['required','mimes:pdf'],
         ];
     }
     public function attributes()
@@ -39,7 +39,7 @@ class editPersonal extends FormRequest
             'Phone2'=> 'Telefono 2',
             'EmailAddress'=> 'Correo personal',
             'EmailAddress2'=> 'Correo comercial',
-            'IdentificacionArch'=> 'Archivo identificación'
+            'Archivos' => 'Documentos adjuntos'
         ];
     }
 }

@@ -7,63 +7,74 @@
         <div class="row justify-center align-items-center ">
             <div class="col-12">
                 <div class="row op rounded p-4 pb-2">
-                <div class="col">
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <h1 class=""><b>CONTACTOS.</b> </h1>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3 pb-4">
-                            <div class="d-grid gap-2">
-                                <a href="/ncontcreate"class="btn btn-dark" ><i class="fas fa-plus-circle"></i> Agregar contacto</a>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h1 class=""><b>CONTACTOS.</b> </h1>
                             </div>
                         </div>
-                    </div>
-                    <form action="" method="post">
-                        @csrf
-                        <div class="row mb-3">
-                            <div class="col">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered border-dark" id="dt">
-                                        <thead>
-                                            <tr>
-                                                <th>Acciones</th>
-                                                <th>Tipo de contacto</th>
-                                                <th>Nombre de contacto</th>
-                                                <th>Correo</th>
-                                                <th>Celular de contacto</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($contactos as $key => $val)
-                                            <tr>
-                                                <td class="text-center"><a href="/ncontedit/{{$contactos[$key]['Name']}}"><i class="fas fa-pen"></i></a></td>
-                                                <td>{{$contactos[$key]['Name']}}</td>
-                                                <td>{{$contactos[$key]['FirstName']." ". $contactos[$key]['MiddleName']." ". $contactos[$key]['LastName']}}</td>
-                                                <td>{{$contactos[$key]['E_Mail']}}</td>
-                                                <td>
-                                                        {{$contactos[$key]['MobilePhone']}}
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                        <div class="row">
+                            <div class="col-3 pb-4">
+                                <div class="d-grid gap-2">
+                                    <a href="/ncontcreate"class="btn btn-dark" ><i class="fas fa-plus-circle"></i> Agregar contacto</a>
                                 </div>
                             </div>
                         </div>
-                                                
-                        <div class="row d-flex justify-content-end mb-5">
-                            <!-- <div class="col-12 col-md-4 pb-3 pb-md-0 d-grid gap-2">
-                                <button type="submit" class="btn btn-dark text-white">Editar</button>
+                        <form action="" method="post">
+                            @csrf
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered border-dark" id="dt">
+                                            <thead>
+                                                <tr>
+                                                    <th>Acciones</th>
+                                                    <th>Tipo de contacto</th>
+                                                    <th>Nombre de contacto</th>
+                                                    <th>Correo</th>
+                                                    <th>Celular de contacto</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($contactos as $key => $val)
+                                                <tr>
+                                                    <td class="text-center"><a href="/ncontedit/{{$contactos[$key]['Name']}}"><i class="fas fa-pen"></i></a></td>
+                                                    <td>{{$contactos[$key]['Name']}}</td>
+                                                    <td>{{$contactos[$key]['FirstName']." ". $contactos[$key]['MiddleName']." ". $contactos[$key]['LastName']}}</td>
+                                                    <td>{{$contactos[$key]['E_Mail']}}</td>
+                                                    <td>
+                                                            {{$contactos[$key]['MobilePhone']}}
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-12 col-md-4 pb-3 pb-md-0 d-grid gap-2">
-                                <a href="{{ route('info.index')}}" class="btn btn-outline-dark">Volver</a>
-                            </div> -->
-                            
+                                                    
+                            <div class="row d-flex justify-content-end mb-5">
+                                <!-- <div class="col-12 col-md-4 pb-3 pb-md-0 d-grid gap-2">
+                                    <button type="submit" class="btn btn-dark text-white">Editar</button>
+                                </div>
+                                <div class="col-12 col-md-4 pb-3 pb-md-0 d-grid gap-2">
+                                    <a href="{{ route('info.index')}}" class="btn btn-outline-dark">Volver</a>
+                                </div> -->
+                                
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="col-12 mt-2">
+                        <div class="row d-flex justify-content-between mb-5">
+                            <div class="col-12 col-md-2 pb-2 pb-md-0 d-grid gap-2">
+                                <a href="/ndir" class="btn btn-outline-dark "><i class="fas fa-angle-double-left"></i> Atras</a>
+                            </div>
+                            <div class="col-12 col-md-2 pb-2 pb-md-0 d-grid gap-2">
+                                <a href="#" class="btn btn-dark">Finalizar <i class="fas fa-angle-double-right"></i></a>
+                            </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
                 </div>
             </div>
         </div>

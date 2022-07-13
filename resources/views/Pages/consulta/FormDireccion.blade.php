@@ -16,19 +16,19 @@
                         <form action="/ndirupdate/{{$dire['LineNum']}}" method="put" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-floating mb-3">
-                                    <select class="form-select @error('AddressType') is-invalid @enderror" id="tipo_d"  name="AddressType" >
-                                        <option value="">Tipo de dirección.</option>
-                                        <option value="bo_BillTo">Direccion de facturación.</option>
-                                        <option value="bo_ShipTo">Direccion de envío.</option>
-                                    </select>
-                                    <label for="tipo_d">Tipo de dirección.</label>
-                                    @error('AddressType')
-                                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                    @enderror
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select @error('AddressType') is-invalid @enderror" id="tipo_d"  name="AddressType" >
+                                            <option value="">Tipo de dirección.</option>
+                                            <option value="bo_BillTo">Direccion de facturación.</option>
+                                            <option value="bo_ShipTo">Direccion de envío.</option>
+                                        </select>
+                                        <label for="tipo_d">Tipo de dirección.</label>
+                                        @error('AddressType')
+                                            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
                                 <div class="col-md-6">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" value="{{$dire['Nombre_Direccion']}}" name="Nombre_Direccion"  >

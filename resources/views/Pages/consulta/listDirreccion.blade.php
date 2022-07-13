@@ -9,7 +9,7 @@
         <div class="row justify-center align-items-center ">
             <div class="col-12">
                 <div class="row op rounded p-4 pb-2 mt-3">
-                    <div class="col">
+                    <div class="col-12">
                         <div class="row">
                             <div class="col-12 text-center">
                                 <h1 class=""><b>DIRECCIONES.</b> </h1>
@@ -105,6 +105,16 @@
                                         </tbody>
                                     </table>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <div class="row d-flex justify-content-between mb-5">
+                            <div class="col-12 col-md-2 pb-2 pb-md-0 d-grid gap-2">
+                                <a href="/npersonal" class="btn btn-outline-dark "><i class="fas fa-angle-double-left"></i> Atras</a>
+                            </div>
+                            <div class="col-12 col-md-2 pb-2 pb-md-0 d-grid gap-2">
+                                <a href="/ncont" class="btn btn-dark">Siguiente <i class="fas fa-angle-double-right"></i></a>
                             </div>
                         </div>
                     </div>

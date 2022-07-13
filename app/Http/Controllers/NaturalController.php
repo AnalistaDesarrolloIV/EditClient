@@ -32,12 +32,12 @@ class NaturalController extends Controller
                     $_SESSION['CODUSER'] = $usuario['CardCode'];
                     $AttachmentEntry = $usuario['AttachmentEntry'];
                     
-                    $doc = Http::retry(10, 300)->withToken($_SESSION['B1SESSION'])
+                    $doc = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
                     ->get('https://10.170.20.95:50000/b1s/v1/Attachments2'."($AttachmentEntry)");
                     $doc = $doc->json();
                     $document = $doc['Attachments2_Lines'];
 
-                    $tipo_d = Http::retry(10, 300)->withToken($_SESSION['B1SESSION'])
+                    $tipo_d = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
                     ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries'."('TipoDoc')".'/List');
                     $tipo_d = $tipo_d->json();
                     $tipos = $tipo_d['value'];
@@ -54,44 +54,45 @@ class NaturalController extends Controller
     public function editPersonal(editPersonal $request)
     {
         $input = $request->all();
+        // dd($input);
         session_start();
         $id = $_SESSION['CODUSER'];
-        if (isset($input['IdentificacionArch'])) {
-            if (isset($input['AttachmentEntry'])) {
-                $AttachmentEntry = $input['AttachmentEntry'];
-                // dd($AttachmentEntry);
-                $arch = $request->file('IdentificacionArch');
-                $nombre =  time()."-".$_SESSION['CODUSER']."-".$arch->getClientOriginalName();
-                $arch->move(public_path().'/docs', $nombre);
+        $user_id = $_SESSION['USER'];
+        if (isset($input['Archivos'])) {
+            $archivos = $input['Archivos'];
+            foreach ($archivos as $key => $value) {
+                // dd($archivos[$key]);
+                $arch = $archivos[$key];
+                $nombreArch =  time()."-".$_SESSION['CODUSER']."-".$arch->getClientOriginalName();
+                $arch->move(public_path().'/docs', $nombreArch);
                 $url=url('').'/docs';
-                $g = move_uploaded_file($arch, "//10.170.20.124/SAP-compartida/Carpeta_anexos/$nombre");
-                // dd($g);
-                $doc = Http::retry(10, 300)->withToken($_SESSION['B1SESSION'])
-                ->patch('https://10.170.20.95:50000/b1s/v1/Attachments2'."($AttachmentEntry)", [
-                    'Attachments2_Lines'=> [[
-                        'FileName'=> $nombre,
-                        'SourcePath'=> "$url"
-                        ]]
-                ]);
-                $id_doc = $AttachmentEntry;
-
-            }else {
-                $arch = $request->file('IdentificacionArch');
-                $nombre =  time()."-".$_SESSION['CODUSER']."-".$arch->getClientOriginalName();
-                $arch->move(public_path().'/docs', $nombre);
-                $url=url('').'/docs';
-                $extencion = $arch->extension();
+                $g = move_uploaded_file($arch, "//10.170.20.124/SAP-compartida/Carpeta_anexos/$nombreArch");
                 
-                $g = move_uploaded_file($arch, "//10.170.20.124/SAP-compartida/Carpeta_anexos/$nombre");
-                $doc = Http::retry(10, 300)->withToken($_SESSION['B1SESSION'])
-                ->post('https://10.170.20.95:50000/b1s/v1/Attachments2', [
-                    'Attachments2_Lines'=> [[
-                            'FileName'=> $nombre,
-                            'SourcePath'=>  "$url"
-                        ]]
-                ]);
-                $document = $doc->json();
-                $id_doc = $document['AbsoluteEntry'];
+                $user = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
+                ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry&$filter=FederalTaxID eq '."'$user_id'"." and CardType eq 'cCustomer'");
+                $user = $user['value'][0];
+
+                if (isset($user['AttachmentEntry'])) {
+                    $AttachmentEntry = $user['AttachmentEntry'];
+                    $doc = Http::retry(10, 300)->withToken($_SESSION['B1SESSION'])
+                    ->patch('https://10.170.20.95:50000/b1s/v1/Attachments2'."($AttachmentEntry)", [
+                        'Attachments2_Lines'=> [[
+                            'FileName'=> $nombreArch,
+                            'SourcePath'=> "$url"
+                            ]]
+                    ]);
+                    $id_doc = $AttachmentEntry;
+                }else { 
+                    $doc = Http::retry(10, 300)->withToken($_SESSION['B1SESSION'])
+                    ->post('https://10.170.20.95:50000/b1s/v1/Attachments2', [
+                        'Attachments2_Lines'=> [[
+                                'FileName'=> $nombreArch,
+                                'SourcePath'=>  "$url"
+                            ]]
+                    ]);
+                    $document = $doc->json();
+                    $id_doc = $document['AbsoluteEntry'];
+                }
             }
             do {
                 $insert = Http::withToken($_SESSION['B1SESSION'])
@@ -106,7 +107,7 @@ class NaturalController extends Controller
                     'EmailAddress' => $input['EmailAddress'],
                 ])->json();
             
-        } while (!$insert == null);
+            } while (!$insert == null);
         }else{
             do {
                 $insert = Http::withToken($_SESSION['B1SESSION'])
@@ -120,11 +121,11 @@ class NaturalController extends Controller
                     'EmailAddress' => $input['EmailAddress'],
                 ])->json();
             
-        } while (!$insert == null);
+            } while (!$insert == null);
         }
         
         alert()->success('Usuario','Usuario editado exitosamente.');
-        return Redirect('/npersonal');
+        return Redirect('/ndir');
 
     }
 

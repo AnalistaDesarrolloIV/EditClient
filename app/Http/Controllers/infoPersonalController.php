@@ -57,22 +57,33 @@ class infoPersonalController extends Controller
             }else{
                 $usuario = $user['value']['0'];
                 $_SESSION['CODUSER'] = $usuario['CardCode'];
+                if (isset($usuario['AttachmentEntry'])) {
+                    $AttachmentEntry = $usuario['AttachmentEntry'];
+                    $doc = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
+                    ->get('https://10.170.20.95:50000/b1s/v1/Attachments2'."($AttachmentEntry)");
+                        
+                    $doc = $doc->json();
+                    $document = $doc['Attachments2_Lines'];
+    
+                    $tipo_d = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
+                    ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries'."('TipoDoc')".'/List');
+                        
+                    $tipo_d = $tipo_d->json();
+                    $tipos = $tipo_d['value'];
+                        
+                    return view('Pages.consulta.FormEditPerson', compact('usuario', 'document', 'tipos'));
+                }else {
+                    $document = null;
+    
+                    $tipo_d = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
+                    ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries'."('TipoDoc')".'/List');
+                        
+                    $tipo_d = $tipo_d->json();
+                    $tipos = $tipo_d['value'];
+                        
+                    return view('Pages.consulta.FormEditPerson', compact('usuario', 'document', 'tipos'));
+                }
                 
-                $AttachmentEntry = $usuario['AttachmentEntry'];
-
-                $doc = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
-                ->get('https://10.170.20.95:50000/b1s/v1/Attachments2'."($AttachmentEntry)");
-                    
-                $doc = $doc->json();
-                $document = $doc['Attachments2_Lines'];
-
-                $tipo_d = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
-                ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries'."('TipoDoc')".'/List');
-                    
-                $tipo_d = $tipo_d->json();
-                $tipos = $tipo_d['value'];
-                    
-                return view('Pages.consulta.FormEditPerson', compact('usuario', 'document', 'tipos'));
             }
         // }
 

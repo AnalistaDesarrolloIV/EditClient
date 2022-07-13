@@ -78,34 +78,31 @@
                                     @enderror
                                     </div>
                                 </div>
-                                @if($usuario['AttachmentEntry'] != null)
-                                <div class="col-12">
-                                    <div class="input-group mb-3">
-                                        <label class="input-group-text" for="inputGroupFile01">RUT/Cedula de ciudadania.</label>
-                                        <input type="file" class="form-control d-flex align-content-center @error('IdentificacionArch') is-invalid @enderror" id="inputGroupFile01" name="IdentificacionArch" style="height: 3.5rem;" accept=".pdf" >
-                                    @error('IdentificacionArch')
-                                        <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
-                                    @enderror
+                                
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="tipo_p" onchange="pedir_doc()" name="" >
+                                            <option value="">Tipo de cliente.</option>
+                                            <option value="1">Natural.</option>
+                                            <option value="2">Independiente.</option>
+                                            <option value="3">juridica.</option>
+                                        </select>
+                                        <label for="tipo_d">Tipo de cliente.</label>
                                     </div>
                                 </div>
-                                @else
-                                        <div class="input-group mb-3">
-                                            <label class="input-group-text" for="inputGroupFile01">RUT/Cedula de ciudadania.  <b style=" color: red;">*</b></label>
-                                            <input type="file" class="form-control d-flex align-content-center @error('IdentificacionArch') is-invalid @enderror" id="inputGroupFile01" name="IdentificacionArch" style="height: 3.5rem;" accept=".pdf" required>
-                                    @error('IdentificacionArch')
-                                        <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
-                                    @enderror
-                                        </div>
-                                @endif
-                                <!-- <div class="col-12">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="floatingInput" value="{{$usuario['AttachmentEntry']}}" name="AttachmentEntry">
-                                        <label for="floatingInput">Anexos. <b style="font-size: 18px; color: red;">*</b></label>
-                                    </div>
-                                </div> -->
+                                <div class="col-12" id="cc_nit">
+
+                                </div>
+                                <div class="col-12" id="banco">
+
+                                </div>
+                                <div class="col-12" id="c_c">
+
+                                </div>
+
                             </div>
-                            @if($usuario['AttachmentEntry'] != null)
-                                <div class="row d-flex justify-content-end mb-2">
+                            @if($document != null)
+                                <div class="row d-flex justify-content-end mb-4">
                                     <div class="col-12">
                                         <h3><b> Mis archivos.</b></h3>
                                     </div>
@@ -127,9 +124,9 @@
                                     @endforeach -->
                                 </div>
                             @endif
-                            <div class="row d-flex justify-content-end mb-2">
+                            <div class="row d-flex justify-content-end my-2">
                                 <div class="col-12 col-md-4 pb-3 pb-md-0 d-grid gap-2">
-                                    <button type="submit" class="btn btn-dark text-white">Editar</button>
+                                    <button type="submit" class="btn btn-dark text-white">Editar y siguiente <i class="fas fa-angle-double-right"></i></button>
                                 </div>
                             </div>
                         </form>
@@ -139,4 +136,92 @@
         </div>
     </div>    
 </div>
+@endsection
+
+
+
+
+
+
+@section('script')
+
+    <script>
+        function pedir_doc() {
+            let tipoP = $("#tipo_p option:selected").val();
+            if (tipoP == 1) {
+                $("#cc_nit").text(``);
+                $("#banco").text(``);
+                $("#c_c").text(``);
+                $("#cc_nit").append(`
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="doc_cc_nit">RUT/Cedula de ciudadania.  <b style=" color: red;">*</b></label>
+                    <input type="file" class="form-control d-flex align-content-center @error('Archivos') is-invalid @enderror" id="doc_cc_nit" name="Archivos[]" style="height: 3.5rem;" accept=".pdf" required>
+                    @error('Archivos')
+                        <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                    @enderror
+                </div>
+                `);
+            }else if(tipoP == 2) {
+                $("#cc_nit").text(``);
+                $("#banco").text(``);
+                $("#c_c").text(``);
+
+                $("#cc_nit").append(`
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="inputGroupFile01">RUT/Cedula de ciudadania.  <b style=" color: red;">*</b></label>
+                        <input type="file" class="form-control d-flex align-content-center @error('Archivos') is-invalid @enderror" id="inputGroupFile01" name="Archivos[]" style="height: 3.5rem;" accept=".pdf" required>
+                        @error('Archivos')
+                            <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                        @enderror
+                    </div>
+                `);
+                $("#banco").append(`
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="banco">Certficado Bancario.  <b style=" color: red;">*</b></label>
+                        <input type="file" class="form-control d-flex align-content-center @error('Archivos') is-invalid @enderror" id="banco" name="Archivos[]" style="height: 3.5rem;" accept=".pdf" required>
+                        @error('Archivos')
+                            <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                        @enderror
+                    </div>
+                `);
+            }else if(tipoP == 3){
+                $("#cc_nit").text(``);
+                $("#banco").text(``);
+                $("#c_c").text(``);
+
+                $("#cc_nit").append(`
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="inputGroupFile01">RUT/Cedula de ciudadania.  <b style=" color: red;">*</b></label>
+                        <input type="file" class="form-control d-flex align-content-center @error('Archivos') is-invalid @enderror" id="inputGroupFile01" name="Archivos[]" style="height: 3.5rem;" accept=".pdf" required>
+                        @error('Archivos')
+                            <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                        @enderror
+                    </div>
+                `);
+                $("#banco").append(`
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="banco">Certficado Bancario.  <b style=" color: red;">*</b></label>
+                        <input type="file" class="form-control d-flex align-content-center @error('Archivos') is-invalid @enderror" id="banco" name="Archivos[]" style="height: 3.5rem;" accept=".pdf" required>
+                        @error('Archivos')
+                            <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                        @enderror
+                    </div>
+                `);
+                $("#c_c").append(`
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="banco">Camara y comercio.  <b style=" color: red;">*</b></label>
+                        <input type="file" class="form-control d-flex align-content-center @error('Archivos') is-invalid @enderror" id="banco" name="Archivos[]" style="height: 3.5rem;" accept=".pdf" required>
+                        @error('Archivos')
+                            <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
+                        @enderror
+                    </div>
+                `);
+            }else{
+                $("#cc_nit").text(``);
+                $("#banco").text(``);
+                $("#c_c").text(``);
+            }
+        }
+    </script>
+
 @endsection

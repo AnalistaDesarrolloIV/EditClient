@@ -166,8 +166,8 @@
         let telefono2 = "{{$contacto['Phone2']}}";
         let limit2 = telefono2.search("-");
         if (limit2 > 1) {
-            let limitetel2 = limit +=2;
-            let limitext2 = limit -=6;
+            let limitetel2 = limit2;
+            let limitext2 = limit2 +=3;
             $('#ext2').val(telefono2.substr(2, limitext));
             $('#tel2').val(telefono2.substr(limitetel));
         }else{

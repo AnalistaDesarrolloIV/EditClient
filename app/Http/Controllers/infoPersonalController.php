@@ -45,16 +45,21 @@ class infoPersonalController extends Controller
             $_SESSION['T_USER'] = $input['tipoIdentificacion'];
             
             $user = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
-            ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry&$filter=FederalTaxID eq  '."'$id'"." and CardType eq 'cCustomer'");
+            ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry,FreeText&$filter=FederalTaxID eq  '."'$id'"." and CardType eq 'cCustomer'");
                     
             $user = $user->json();
-            $tipoD = $user['value']['0']['U_HBT_TipDoc'];
 
-            if (!isset($user['value']['0']) || $tipoD !=  $_SESSION['T_USER']) {
-                alert()->warning('¡Atencion!','Identificación no existe o tipo de identificación incorrecto.');
-    
-                return view('welcome');
+            if (!isset($user['value'][0])) {
+                    alert()->warning('¡Atencion!','Identificación no existe.');
+        
+                    return view('welcome');
             }else{
+                $tipoD = $user['value']['0']['U_HBT_TipDoc'];
+                if ($tipoD !=  $_SESSION['T_USER']) {
+                    alert()->warning('¡Atencion!','Tipo de identificación incorrecto.');
+        
+                    return view('welcome');
+                }
                 $usuario = $user['value']['0'];
                 $_SESSION['CODUSER'] = $usuario['CardCode'];
                 if (isset($usuario['AttachmentEntry'])) {

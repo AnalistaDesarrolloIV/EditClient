@@ -25,7 +25,7 @@ class NaturalController extends Controller
 
             try {
                 $user = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
-                ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry&$filter=FederalTaxID eq '."'$id'"." and CardType eq 'cCustomer'");
+                ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry,FreeText&$filter=FederalTaxID eq '."'$id'"." and CardType eq 'cCustomer'");
                 if ($user->successful()) {
                     $user = $user->json();
                     $usuario = $user['value']['0'];
@@ -58,32 +58,33 @@ class NaturalController extends Controller
         session_start();
         $id = $_SESSION['CODUSER'];
         $user_id = $_SESSION['USER'];
+        $correos_com = $input['comerciales'];
+        $comerciales = "";
+        foreach ($correos_com as $key => $value) {
+            if ($correos_com[$key] != null) {
+                $comerciales = $comerciales."; ".$correos_com[$key];
+            }
+        }
+        $comerciales = substr($comerciales, 2);
+        $coment = mb_strtoupper($input['coments'], 'UTF-8');
         if (isset($input['Archivos'])) {
             $archivos = $input['Archivos'];
+
             foreach ($archivos as $key => $value) {
-                // dd($archivos[$key]);
                 $arch = $archivos[$key];
                 $nombreArch =  time()."-".$_SESSION['CODUSER']."-".$arch->getClientOriginalName();
                 $arch->move(public_path().'/docs', $nombreArch);
                 $url=url('').'/docs';
                 $g = move_uploaded_file($arch, "//10.170.20.124/SAP-compartida/Carpeta_anexos/$nombreArch");
                 
+
+
                 $user = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
-                ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry&$filter=FederalTaxID eq '."'$user_id'"." and CardType eq 'cCustomer'");
+                ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry,FreeText&$filter=FederalTaxID eq '."'$user_id'"." and CardType eq 'cCustomer'");
                 $user = $user['value'][0];
 
-                if (isset($user['AttachmentEntry'])) {
-                    $AttachmentEntry = $user['AttachmentEntry'];
-                    $doc = Http::retry(10, 300)->withToken($_SESSION['B1SESSION'])
-                    ->patch('https://10.170.20.95:50000/b1s/v1/Attachments2'."($AttachmentEntry)", [
-                        'Attachments2_Lines'=> [[
-                            'FileName'=> $nombreArch,
-                            'SourcePath'=> "$url"
-                            ]]
-                    ]);
-                    $id_doc = $AttachmentEntry;
-                }else { 
-                    $doc = Http::retry(10, 300)->withToken($_SESSION['B1SESSION'])
+                if (!isset($user['AttachmentEntry'])) {
+                    $doc = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
                     ->post('https://10.170.20.95:50000/b1s/v1/Attachments2', [
                         'Attachments2_Lines'=> [[
                                 'FileName'=> $nombreArch,
@@ -92,22 +93,33 @@ class NaturalController extends Controller
                     ]);
                     $document = $doc->json();
                     $id_doc = $document['AbsoluteEntry'];
+                }else { 
+                    $AttachmentEntry = $user['AttachmentEntry'];
+                    $doc = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
+                    ->patch('https://10.170.20.95:50000/b1s/v1/Attachments2'."($AttachmentEntry)", [
+                        'Attachments2_Lines'=> [[
+                            'FileName'=> $nombreArch,
+                            'SourcePath'=> "$url"
+                            ]]
+                    ]);
+                    $id_doc = $AttachmentEntry;
                 }
+                do {
+                    $insert = Http::withToken($_SESSION['B1SESSION'])
+                    ->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners'."('$id')", [
+                        'CardCode'=> $input['CardCode'],
+                        'U_HBT_TipDoc'=> $input['U_HBT_TipDoc'],
+                        'FederalTaxID'=> $input['FederalTaxID'],
+                        'CardName'=> $input['CardName'],
+                        'Phone1'=> $input['Phone1'],
+                        'Phone2'=> $input['Phone2'],
+                        'AttachmentEntry' => $id_doc,
+                        'EmailAddress' => $input['EmailAddress'],
+                        'FreeText'=> $coment
+                    ])->json();
+                
+                } while (!$insert == null);
             }
-            do {
-                $insert = Http::withToken($_SESSION['B1SESSION'])
-                ->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners'."('$id')", [
-                    'CardCode'=> $input['CardCode'],
-                    'U_HBT_TipDoc'=> $input['U_HBT_TipDoc'],
-                    'FederalTaxID'=> $input['FederalTaxID'],
-                    'CardName'=> $input['CardName'],
-                    'Phone1'=> $input['Phone1'],
-                    'Phone2'=> $input['Phone2'],
-                    'AttachmentEntry' => $id_doc,
-                    'EmailAddress' => $input['EmailAddress'],
-                ])->json();
-            
-            } while (!$insert == null);
         }else{
             do {
                 $insert = Http::withToken($_SESSION['B1SESSION'])
@@ -119,6 +131,7 @@ class NaturalController extends Controller
                     'Phone1'=> $input['Phone1'],
                     'Phone2'=> $input['Phone2'],
                     'EmailAddress' => $input['EmailAddress'],
+                    'FreeText'=> $coment
                 ])->json();
             
             } while (!$insert == null);
@@ -183,8 +196,8 @@ class NaturalController extends Controller
         }
         
         $id = $_SESSION['CODUSER'];
-        $AddressName= strtoupper($input['Nombre_Direccion']);
-        $Block= strtoupper($input['Barrio_Vereda_Corregimiento']);
+        $AddressName= mb_strtoupper($input['Nombre_Direccion'], 'UTF-8');
+        $Block= mb_strtoupper($input['Barrio_Vereda_Corregimiento'], 'UTF-8');
 
         do {
             $create = Http::withToken($_SESSION['B1SESSION'])->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners'."('$id')".'?$select=BPAddresses', [
@@ -256,8 +269,8 @@ class NaturalController extends Controller
         // dd($ciudad_name);
 
         $cod = $_SESSION['CODUSER'];
-        $AddressName= strtoupper($input['Nombre_Direccion']);
-        $Block= strtoupper($input['Barrio_Vereda_Corregimiento']);
+        $AddressName= mb_strtoupper($input['Nombre_Direccion'], 'UTF-8');
+        $Block= mb_strtoupper($input['Barrio_Vereda_Corregimiento'], 'UTF-8');
 
         do {
             $update = Http::withToken($_SESSION['B1SESSION'])->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners'."('$cod')".'?$select=BPAddresses', [
@@ -274,7 +287,7 @@ class NaturalController extends Controller
                         "BPCode"=> $_SESSION['CODUSER'],
                         "FederalTaxID"=> $_SESSION['USER'],
                         "RowNum"=> $id,
-                        "U_HBT_MunMed"=> $input['Codigo_Postal']
+                        "j"=> $input['Codigo_Postal']
                     ]
                 ],
             ]);
@@ -325,7 +338,7 @@ class NaturalController extends Controller
             $contact = $contact->json();
             $contact = $contact['ContactEmployees'];
             $ccont = 1;
-            $com = strtoupper($input['Name']);
+            $com = mb_strtoupper($input['Name'], 'UTF-8');
             foreach ($contact as $key => $value) {
                 if ($contact[$key]['Name'] == $com) {
                     $com = $input['Name'];
@@ -375,7 +388,7 @@ class NaturalController extends Controller
             $contact = $contact->json();
             $contact = $contact['ContactEmployees'];
             $ccont = 0;
-            $com = strtoupper($input['Name']);
+            $com = mb_strtoupper($input['Name'], 'UTF-8');
             foreach ($contact as $key => $value) {
                 if ($contact[$key]['Name'] == $com) {
                     alert()->error('¡Atencion!','Tipo de contacto ya creado.');
@@ -447,11 +460,11 @@ class NaturalController extends Controller
         session_start();
         
         $cod = $_SESSION['CODUSER'];
-        $Name= strtoupper($input['Name']);
-        $FirstName= strtoupper($input['FirstName']);
-        $MiddleName= strtoupper($input['MiddleName']);
-        $LastName=  strtoupper($input['LastName']);
-        $Profession= strtoupper($input['Profession']);
+        $Name= mb_strtoupper($input['Name'], 'UTF-8');
+        $FirstName= mb_strtoupper($input['FirstName'], 'UTF-8');
+        $MiddleName= mb_strtoupper($input['MiddleName'], 'UTF-8');
+        $LastName=  mb_strtoupper($input['LastName'], 'UTF-8');
+        $Profession= mb_strtoupper($input['Profession'], 'UTF-8');
 
         do {
             $update = Http::withToken($_SESSION['B1SESSION'])->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners'."('$cod')", [

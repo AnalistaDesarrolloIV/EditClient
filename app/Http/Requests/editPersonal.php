@@ -24,11 +24,11 @@ class editPersonal extends FormRequest
     public function rules()
     {
         return [
-            'Phone1'=>['required','numeric', 'min:5'],
+            'Phone1'=>['required','numeric', 'min:2'],
             'Phone2'=>['nullable','numeric',],
-            'EmailAddress'=>['required','email', 'regex:/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i'],
-            'EmailAddress2'=>['required','email', 'regex:/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i'],
-            'Archivos'=>['required','mimes:pdf'],
+            'EmailAddress'=>['required','email', 'regex:/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i', 'confirmed'],
+            'EmailAddress_confirmation' => ['required'],
+            'coments' => ['nullable', 'max:50000']
         ];
     }
     public function attributes()
@@ -37,9 +37,10 @@ class editPersonal extends FormRequest
             
             'Phone1'=> 'Telefono 1',
             'Phone2'=> 'Telefono 2',
-            'EmailAddress'=> 'Correo personal',
+            'EmailAddress'=> 'Correo de facturación',
+            'EmailAddress_confirmation' => 'Confirmacion de correo de facturación',
             'EmailAddress2'=> 'Correo comercial',
-            'Archivos' => 'Documentos adjuntos'
+            'coments'=> 'Comentarios'
         ];
     }
 }

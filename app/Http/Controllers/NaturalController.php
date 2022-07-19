@@ -25,23 +25,38 @@ class NaturalController extends Controller
 
             try {
                 $user = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
-                ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry,FreeText&$filter=FederalTaxID eq '."'$id'"." and CardType eq 'cCustomer'");
+                ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry,FreeText&$filter=FederalTaxID eq  '."'$id'"." and CardType eq 'cCustomer'");
+
                 if ($user->successful()) {
                     $user = $user->json();
+                    // dd($user);
                     $usuario = $user['value']['0'];
                     $_SESSION['CODUSER'] = $usuario['CardCode'];
-                    $AttachmentEntry = $usuario['AttachmentEntry'];
-                    
-                    $doc = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
-                    ->get('https://10.170.20.95:50000/b1s/v1/Attachments2'."($AttachmentEntry)");
-                    $doc = $doc->json();
-                    $document = $doc['Attachments2_Lines'];
+                    if (isset($usuario['AttachmentEntry'])) {
+                        $AttachmentEntry = $usuario['AttachmentEntry'];
+                        
+                        $doc = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
+                        ->get('https://10.170.20.95:50000/b1s/v1/Attachments2'."($AttachmentEntry)");
+                        $doc = $doc->json();
+                        $document = $doc['Attachments2_Lines'];
+    
+                        $tipo_d = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
+                        ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries'."('TipoDoc')".'/List');
+                        $tipo_d = $tipo_d->json();
+                        $tipos = $tipo_d['value'];
 
-                    $tipo_d = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
-                    ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries'."('TipoDoc')".'/List');
-                    $tipo_d = $tipo_d->json();
-                    $tipos = $tipo_d['value'];
-                    return view('Pages.consulta.FormEditPerson', compact('usuario', 'document', 'tipos'));
+                        return view('Pages.consulta.FormEditPerson', compact('usuario', 'document', 'tipos'));
+                    }else{
+                        
+                        $document = null; 
+
+                        $tipo_d = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
+                        ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries'."('TipoDoc')".'/List');
+                        $tipo_d = $tipo_d->json();
+                        $tipos = $tipo_d['value'];
+                        
+                        return view('Pages.consulta.FormEditPerson', compact('usuario', 'document', 'tipos'));
+                    }
                 }else {
                     dd("fallo de conexion");
                 }
@@ -71,13 +86,12 @@ class NaturalController extends Controller
             $archivos = $input['Archivos'];
 
             foreach ($archivos as $key => $value) {
-                $arch = $archivos[$key];
+                $arch = $value;       
                 $nombreArch =  time()."-".$_SESSION['CODUSER']."-".$arch->getClientOriginalName();
-                $arch->move(public_path().'/docs', $nombreArch);
+                $arch->move(public_path().'/docs', $nombreArch);    
                 $url=url('').'/docs';
                 $g = move_uploaded_file($arch, "//10.170.20.124/SAP-compartida/Carpeta_anexos/$nombreArch");
                 
-
 
                 $user = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
                 ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry,FreeText&$filter=FederalTaxID eq '."'$user_id'"." and CardType eq 'cCustomer'");
@@ -120,6 +134,7 @@ class NaturalController extends Controller
                 
                 } while (!$insert == null);
             }
+            
         }else{
             do {
                 $insert = Http::withToken($_SESSION['B1SESSION'])

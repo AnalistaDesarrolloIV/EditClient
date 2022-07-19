@@ -28,6 +28,7 @@ body{
 }
 .hov_menu:hover{
     background: rgba(0,0,0,0.3);
+    position: absolute;
 }
 .navbar-expand {
   @each $breakpoint in map-keys($grid-breakpoints) {

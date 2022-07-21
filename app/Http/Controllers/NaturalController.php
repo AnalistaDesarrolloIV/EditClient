@@ -25,7 +25,7 @@ class NaturalController extends Controller
 
             try {
                 $user = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
-                ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry,FreeText&$filter=FederalTaxID eq  '."'$id'"." and CardType eq 'cCustomer'");
+                ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry,FreeText,Website&$filter=FederalTaxID eq  '."'$id'"." and CardType eq 'cCustomer'");
 
                 if ($user->successful()) {
                     $user = $user->json();
@@ -69,7 +69,6 @@ class NaturalController extends Controller
     public function editPersonal(editPersonal $request)
     {
         $input = $request->all();
-        // dd($input);
         session_start();
         $id = $_SESSION['CODUSER'];
         $user_id = $_SESSION['USER'];
@@ -86,15 +85,17 @@ class NaturalController extends Controller
             $archivos = $input['Archivos'];
 
             foreach ($archivos as $key => $value) {
-                $arch = $value;       
-                $nombreArch =  time()."-".$_SESSION['CODUSER']."-".$arch->getClientOriginalName();
-                $arch->move(public_path().'/docs', $nombreArch);    
-                $url=url('').'/docs';
+                $arch = $value;     
+                $nombreArch =  time()."-".$_SESSION['CODUSER']."-".$arch->getClientOriginalName(); 
+                // $g = Storage::disk('public')->put("docs", $arch);
+                // dd($g);
+                // $arch->storage(public_path().'/docs', $nombreArch);  
+                $url=url('').'storage/docs';
                 $g = move_uploaded_file($arch, "//10.170.20.124/SAP-compartida/Carpeta_anexos/$nombreArch");
-                
+                // dd($g);
 
                 $user = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
-                ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry,FreeText&$filter=FederalTaxID eq '."'$user_id'"." and CardType eq 'cCustomer'");
+                ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry,FreeText,Website&$filter=FederalTaxID eq '."'$user_id'"." and CardType eq 'cCustomer'");
                 $user = $user['value'][0];
 
                 if (!isset($user['AttachmentEntry'])) {
@@ -128,6 +129,7 @@ class NaturalController extends Controller
                         'Phone1'=> $input['Phone1'],
                         'Phone2'=> $input['Phone2'],
                         'AttachmentEntry' => $id_doc,
+                        'Website' => $comerciales,
                         'EmailAddress' => $input['EmailAddress'],
                         'FreeText'=> $coment
                     ])->json();
@@ -145,6 +147,7 @@ class NaturalController extends Controller
                     'CardName'=> $input['CardName'],
                     'Phone1'=> $input['Phone1'],
                     'Phone2'=> $input['Phone2'],
+                    'Website' => $comerciales,
                     'EmailAddress' => $input['EmailAddress'],
                     'FreeText'=> $coment
                 ])->json();
@@ -221,14 +224,14 @@ class NaturalController extends Controller
                         "AddressName"=> $AddressName,
                         "Street"=> $input['Direccion_fisica'],
                         "Block"=> $Block,
-                        "ZipCode"=> $input['Ciudad'],
+                        "U_HBT_MunMed"=> $input['Ciudad'],
                         "City"=> $ciudad_name,
                         "County"=> $input['Departamento'],
                         "State"=> "001",
                         "AddressType" => $input['AddressType'],
                         "BPCode"=> $_SESSION['CODUSER'],
                         "FederalTaxID"=> $_SESSION['USER'],
-                        "U_HBT_MunMed"=> $input['Codigo_Postal']
+                        "ZipCode"=> $input['Codigo_Postal']
                     ]
                 ],
             ]);
@@ -294,7 +297,7 @@ class NaturalController extends Controller
                         "AddressName"=> $AddressName,
                         "Street"=> $input['Direccion_fisica'],
                         "Block"=> $Block,
-                        "ZipCode"=> $input['Ciudad'],
+                        "U_HBT_MunMed"=> $input['Ciudad'],
                         "City"=> $ciudad_name,
                         "County"=> $input['Departamento'],
                         "State"=> "001",
@@ -302,7 +305,7 @@ class NaturalController extends Controller
                         "BPCode"=> $_SESSION['CODUSER'],
                         "FederalTaxID"=> $_SESSION['USER'],
                         "RowNum"=> $id,
-                        "j"=> $input['Codigo_Postal']
+                        "ZipCode"=> $input['Codigo_Postal']
                     ]
                 ],
             ]);
@@ -374,18 +377,22 @@ class NaturalController extends Controller
                     }else{
                         $phone2 = "";
                     }
+                    $FirstName= mb_strtoupper($input['FirstName']);
+                    $MiddleName=  mb_strtoupper($input['MiddleName']);
+                    $LastName=  mb_strtoupper($input['LastName']);
+                    $Profession=  mb_strtoupper($input['Profession']);
                     $insertCont = Http::withToken($_SESSION['B1SESSION'])
                     ->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners'. "('$id')".'?$select=ContactEmployees', [
                         'ContactEmployees'=> [[
                                 'Name'=> $com,
-                                'FirstName'=> $input['FirstName'],
-                                'MiddleName'=>  $input['MiddleName'],
-                                'LastName'=>  $input['LastName'],
+                                'FirstName'=> $FirstName,
+                                'MiddleName'=>  $MiddleName,
+                                'LastName'=>  $LastName,
                                 'Phone1'=>  $phone1,
                                 'Phone2'=> $phone2,
                                 'MobilePhone'=>  $input['MobilePhone'],
                                 'E_Mail' =>  $input['E_Mail'],
-                                'Profession'=>  $input['Profession']
+                                'Profession'=>  $Profession
                         ]]
                     ]);
                 } while ($insertCont->clientError());
@@ -423,18 +430,22 @@ class NaturalController extends Controller
                     }else{
                         $phone2 = "";
                     }
+                    $FirstName= mb_strtoupper($input['FirstName']);
+                    $MiddleName=  mb_strtoupper($input['MiddleName']);
+                    $LastName=  mb_strtoupper($input['LastName']);
+                    $Profession=  mb_strtoupper($input['Profession']);
                     $insertCont = Http::withToken($_SESSION['B1SESSION'])
                     ->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners'. "('$id')".'?$select=ContactEmployees', [
                         'ContactEmployees'=> [[
                                 'Name'=> $com,
-                                'FirstName'=> $input['FirstName'],
-                                'MiddleName'=>  $input['MiddleName'],
-                                'LastName'=>  $input['LastName'],
+                                'FirstName'=> $FirstName,
+                                'MiddleName'=>  $MiddleName,
+                                'LastName'=>  $LastName,
                                 'Phone1'=> $phone1,
                                 'Phone2'=>  $phone2,
                                 'MobilePhone'=>  $input['MobilePhone'],
                                 'E_Mail' =>  $input['E_Mail'],
-                                'Profession'=>  $input['Profession']
+                                'Profession'=>  $Profession
                         ]]
                     ]);
                 } while ($insertCont->clientError());
@@ -481,6 +492,17 @@ class NaturalController extends Controller
         $LastName=  mb_strtoupper($input['LastName'], 'UTF-8');
         $Profession= mb_strtoupper($input['Profession'], 'UTF-8');
 
+        if (isset($input['Phone1'])) {
+            $phone1= $input['Phone1']."-( ".$input['Ext1']." )";
+        }else {
+            $phone1 = "";
+        }
+
+        if (isset($input['Phone2'])) {
+            $phone2= $input['Phone2']."-( ".$input['Ext2']." )";
+        }else{
+            $phone2 = "";
+        }
         do {
             $update = Http::withToken($_SESSION['B1SESSION'])->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners'."('$cod')", [
                 "ContactEmployees"=> [
@@ -491,8 +513,8 @@ class NaturalController extends Controller
                         "FirstName"=> $FirstName,
                         "MiddleName"=> $MiddleName,
                         "LastName"=>  $LastName,
-                        "Phone1"=> $input['Phone1']."-( ".$input['Ext1']." )",
-                        "Phone2"=>  $input['Phone2']."-( ".$input['Ext2']." )",
+                        "Phone1"=> $phone1,
+                        "Phone2"=>  $phone2,
                         "MobilePhone"=> $input['MobilePhone'],
                         "E_Mail"=> $input['E_Mail'],
                         "Profession"=> $Profession

@@ -2,6 +2,16 @@
 @section('tittle', 'Editar Contacto')
 
 @section('contenido')
+
+<div class="toast align-items-center text-white bg-dark border-0 fixed-bottom p-2 my-2 ml-2" id="alert" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="10000">
+    <div class="d-flex">
+        <div class="toast-body">
+                <strong><i class="fas fa-info-circle text-info"></i> </strong>Todos los campos con  (<b style="font-size: 18px; color: red;">*</b>) son obligatorios.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+</div>
+
 <div class="relative flex items-top justify-center min-h-screen  sm:items-center py-4 sm:pt-0">
     <div class="container-fluid mt-5">    
         <div class="row justify-center align-items-center ">
@@ -146,36 +156,47 @@
 </div>
 @endsection
 
+@section('css')
+    <style>
+        .activar3{
+            border-bottom: white solid 2px;
+        }
+    </style>
+
+@endsection
 
 @section('script')
-<script>
-    if ("{{$contacto['Phone1']}}" != "") {
-        let telefono1 = "{{$contacto['Phone1']}}";
-        let limit = telefono1.search("-");
-        if (limit > 1) {
-            let limitetel = limit;
-            let limitext = limit +=3;
-            $('#ext1').val(telefono1.substr(limitext));
-            $('#tel1').val(telefono1.substr(0,limitetel));
-        }else{
-            $('#tel1').val(telefono1);
+    <script>
+        $(document).ready(function() {
+            $('#alert').toast('show');
+        });
+        if ("{{$contacto['Phone1']}}" != "") {
+            let telefono1 = "{{$contacto['Phone1']}}";
+            let limit = telefono1.search("-");
+            if (limit > 1) {
+                let limitetel = limit;
+                let limitext = limit +=3;
+                $('#ext1').val(telefono1.substr(limitext));
+                $('#tel1').val(telefono1.substr(0,limitetel));
+            }else{
+                $('#tel1').val(telefono1);
+            }
         }
-    }
 
-    if ("{{$contacto['Phone2']}}" != "") {
-        let telefono2 = "{{$contacto['Phone2']}}";
-        let limit2 = telefono2.search("-");
-        if (limit2 > 1) {
-            let limitetel2 = limit2;
-            let limitext2 = limit2 +=3;
-            $('#ext2').val(telefono2.substr(2, limitext));
-            $('#tel2').val(telefono2.substr(limitetel));
-        }else{
-            $('#tel2').val(telefono2);
+        if ("{{$contacto['Phone2']}}" != "") {
+            let telefono2 = "{{$contacto['Phone2']}}";
+            let limit2 = telefono2.search("-");
+            if (limit2 > 1) {
+                let limitetel2 = limit2;
+                let limitext2 = limit2 +=3;
+                $('#ext2').val(telefono2.substr(2, limitext));
+                $('#tel2').val(telefono2.substr(limitetel));
+            }else{
+                $('#tel2').val(telefono2);
+            }
         }
-    }
-    
+        
 
 
-</script>
+    </script>
 @endsection

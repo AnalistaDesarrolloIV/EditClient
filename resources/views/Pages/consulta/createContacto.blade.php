@@ -3,6 +3,16 @@
 
 @section('contenido')
 {{session_start();}}
+
+<div class="toast align-items-center text-white bg-dark border-0 fixed-bottom p-2 my-2 ml-2" id="alert" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="10000">
+    <div class="d-flex">
+        <div class="toast-body">
+                <strong><i class="fas fa-info-circle text-info"></i> </strong>Todos los campos con  (<b style="font-size: 18px; color: red;">*</b>) son obligatorios.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+</div>
+
 <div class="relative flex items-top justify-center min-h-screen  sm:items-center py-4 sm:pt-0">
     <div class="container-fluid mt-5">    
         <div class="row justify-center align-items-center ">
@@ -147,9 +157,20 @@
 </div>
 @endsection
 
+@section('css')
+    <style>
+        .activar3{
+            border-bottom: white solid 2px;
+        }
+    </style>
+
+@endsection
 
 @section('script')
-<script>
+    <script>
+        $(document).ready(function() {
+            $('#alert').toast('show');
+        });
 
-</script>
+    </script>
 @endsection

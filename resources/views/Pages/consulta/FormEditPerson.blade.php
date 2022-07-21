@@ -2,23 +2,32 @@
 @section('tittle', 'Información personal')
 
 @section('contenido')
-        <div class="toast align-items-center text-white bg-dark border-0 fixed-bottom py-2 my-2 ml-2" id="alert1" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
-            <div class="d-flex">
-                <div class="toast-body">
-                <i class="fas fa-exclamation-triangle text-warning"></i> Debes haber agregado un primer correo comercial.
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
+<div class="toast align-items-center text-white bg-dark border-0 fixed-bottom p-2 my-2 ml-2" id="alert" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="10000">
+    <div class="d-flex">
+        <div class="toast-body">
+                <strong><i class="fas fa-info-circle text-info"></i> </strong>Todos los campos con  (<b style="font-size: 18px; color: red;">*</b>) son obligatorios.
         </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+</div>
 
-        <div class="toast align-items-center text-white bg-dark border-0 fixed-bottom py-2 my-2 ml-2" id="alert2" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
-            <div class="d-flex">
-                <div class="toast-body">
-                <i class="fas fa-exclamation-triangle text-warning"></i> Solo puedes agregar hasta 5 correos comerciales.
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
+<div class="toast align-items-center text-white bg-dark border-0 fixed-bottom p-2 my-2 ml-2" id="alert1" role="alert" aria-live="assertive" aria-atomic="true"  data-bs-delay="10000">
+    <div class="d-flex">
+        <div class="toast-body">
+        <i class="fas fa-exclamation-triangle text-warning"></i> Debes haber agregado un primer correo comercial.
         </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+</div>
+
+<div class="toast align-items-center text-white bg-dark border-0 fixed-bottom p-2 my-2 ml-2" id="alert2" role="alert" aria-live="assertive" aria-atomic="true"  data-bs-delay="10000">
+    <div class="d-flex">
+        <div class="toast-body">
+        <i class="fas fa-exclamation-triangle text-warning"></i> Solo puedes agregar hasta 5 correos comerciales.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+</div>
 
 <div class="relative flex items-top justify-center min-h-screen  sm:items-center py-4 sm:pt-0">
     <div class="container-fluid mt-5"> 
@@ -83,7 +92,7 @@
                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                         data-bs-custom-class="custom-tooltip"
                                         title="Campo numero de telefono 1 editable y obligatorio.">
-                                        <label for="floatingInput">Telefono 1. <b style="font-size: 18px; color: red;">*</b></label>
+                                        <label for="floatingInput">Teléfono 1. <b style="font-size: 18px; color: red;">*</b></label>
                                     @error('Phone1')
                                         <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
                                     @enderror
@@ -96,7 +105,7 @@
                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                         data-bs-custom-class="custom-tooltip"
                                         title="Campo numero de telefono 2 editable y no obligatorio.">
-                                        <label for="floatingInput">Telefono 2.</label>
+                                        <label for="floatingInput">Teléfono 2.</label>
                                     @error('Phone2')
                                         <div class="alert alert-danger mt-1 mb-1"><small>{{ $message }}</small></div>
                                     @enderror
@@ -204,7 +213,7 @@
                                 </div>
 
                             </div>
-                            @if($document != null)
+                            <!-- @if($document != null)
                                 <div class="row d-flex justify-content-end my-4">
                                     <div class="col-12 text-center">
                                         <h3><b> Mis archivos.</b></h3>
@@ -213,7 +222,7 @@
                                         <div class="list-group">
                                             
                                             @foreach($document as $key => $val)
-                                                <a href="{{$document[$key]['SourcePath']}}/{{$document[$key]['FileName']}}" class="list-group-item list-group-item-action" 
+                                                <a href="//10.170.20.124/SAP-compartida/Carpeta_anexos/{{$document[$key]['FileName']}}" class="list-group-item list-group-item-action" 
                                                 target="_blank" aria-current="true"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 data-bs-custom-class="custom-tooltip"
@@ -224,13 +233,8 @@
 
                                         </div>
                                     </div>
-                                    <!-- @foreach($document as $key => $val)
-                                        <div class="col">
-                                            <a class="btn btn-info" href="{{$document[$key]['SourcePath']}}/{{$document[$key]['FileName']}}" target="_blank">ver-{{$document[$key]['FileName']}}</a> 
-                                        </div>
-                                    @endforeach -->
                                 </div>
-                            @endif
+                            @endif -->
                             <div class="row d-flex justify-content-end my-2">
                                 <div class="col-12 col-md-4 pb-3 pb-md-0 d-grid gap-2">
                                     <button type="submit" class="btn btn-dark text-white">Editar y siguiente <i class="fas fa-angle-double-right"></i></button>
@@ -249,13 +253,23 @@
 @endsection
 
 
+@section('css')
+<style>
+    .activar1{
+        border-bottom: white solid 2px;
+    }
+</style>
 
-
-
+@endsection
 
 @section('script')
 
     <script>
+        
+        $(document).ready(function() {
+            $('#alert').toast('show');
+        });
+
         let cont = 1;
         function correos() {
             if (cont < 5) {  
@@ -276,40 +290,9 @@
                 }else{
                     
                     $('#alert1').toast('show');
-
-                    // $('#alerta').append(`
-                    // <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                    //     <div class="toast-header">
-                    //         <img src="..." class="rounded me-2" alt="...">
-                    //         <strong class="me-auto">Bootstrap</strong>
-                    //         <small class="text-muted">11 mins ago</small>
-                    //         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    //     </div>
-                    //     <div class="toast-body">
-                    //         Hello, world! This is a toast message.
-                    //     </div>
-                    // </div>
-                    // `);
-                    // Swal.fire({
-                    //     icon: 'warning',
-                    //     title: '¡Atención!',
-                    //     text: 'Debes haber agregado un primer correo comercial.',
-                    // })
                 }
             }else{
                     $('#alert2').toast('show');
-
-                    // $('#alerta').append(`
-                    //     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    //         <strong>¡Atención!</strong> Solo puedes agregar hasta 5 correos comerciales.
-                    //         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    //     </div>
-                    // `);
-                    // Swal.fire({
-                    //     icon: 'warning',
-                    //     title: '¡Atención!',
-                    //     text: 'Solo puedes agregar hasta 5 correos comerciales.',
-                    // })
             }
             
           
@@ -391,6 +374,7 @@
                 $("#c_c").text(``);
             }
         }
+        
     </script>
 
 @endsection

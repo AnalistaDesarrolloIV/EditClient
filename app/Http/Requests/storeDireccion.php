@@ -25,7 +25,7 @@ class storeDireccion extends FormRequest
     {
         return [
             'AddressType' => ['required'],
-            'Nombre_Direccion' => ['required', 'min:5', 'max:100'],
+            'Nombre_Direccion' => ['required', 'min:2', 'max:100'],
             'Departamento' => ['required'],
             'Ciudad'=>['required'],
             'Barrio_Vereda_Corregimiento' => ['required'],

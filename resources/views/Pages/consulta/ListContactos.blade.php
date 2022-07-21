@@ -2,6 +2,15 @@
 @section('tittle', 'Contactos')
 
 @section('contenido')
+
+<div class="toast align-items-center text-white bg-dark border-0 fixed-bottom p-2 my-2 ml-2" id="alert" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="10000">
+    <div class="d-flex">
+        <div class="toast-body">
+                <strong><i class="fas fa-info-circle text-info"></i> </strong>Debe ingresar por lo menos un contacto por cada tipo (Contador, Tesorero, Comercial y Logistico ) para poder continuar.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+</div>
 <div class="relative flex items-top justify-center min-h-screen  sm:items-center py-4 sm:pt-0">
     <div class="container-fluid mt-5">    
         <div class="row justify-center align-items-center ">
@@ -68,7 +77,7 @@
                     <div class="col-12 mt-2">
                         <div class="row d-flex justify-content-between mb-5">
                             <div class="col-12 col-md-2 pb-2 pb-md-0 d-grid gap-2">
-                                <a href="/ndir" class="btn btn-outline-dark "><i class="fas fa-angle-double-left"></i> Atras</a>
+                                <a href="/ndir" class="btn btn-outline-dark "><i class="fas fa-angle-double-left"></i> Atrás</a>
                             </div>
                             <div class="col-12 col-md-2 pb-2 pb-md-0 d-grid gap-2">
                                 <a href="#" class="btn btn-dark">Finalizar <i class="fas fa-angle-double-right"></i></a>
@@ -99,5 +108,19 @@
         color: white !important;
         background-color: #212529!important;
     }
+    .activar3{
+        border-bottom: white solid 2px;
+    }
 </style>
+@endsection
+
+@section('script')
+    <script>
+        
+        $(document).ready(function() {
+            $('#alert').toast('show');
+        });
+
+    </script>
+
 @endsection

@@ -181,7 +181,7 @@
                                             <option value="2">Independiente / Sin estblecimiento de comercio.</option>
                                             <option value="3">juridica / Con establecimiento de comercio.</option>
                                         </select>
-                                        <label for="tipo_d">Tipo de cliente.</label>
+                                        <label for="tipo_d">Tipo de cliente. <b style="font-size: 18px; color: red;">*</b></label>
                                     </div>
                                 </div>
                                 <div class="col-12" id="cc_nit">

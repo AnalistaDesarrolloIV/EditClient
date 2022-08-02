@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d9f2f0a91cdce4d020c9a614e96b0e97",
+    "content-hash": "5b7a5a474aad14f1f5ec8cd8ca180211",
     "packages": [
         {
             "name": "brick/math",
@@ -5473,16 +5473,16 @@
         },
         {
             "name": "twbs/bootstrap",
-            "version": "v5.2.0-beta1",
+            "version": "v5.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "fca04c07131a81e625a516cf7b98a8c7df0df1c1"
+                "reference": "688bce4fa695cc360a0d084e34f029b0c192b223"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/fca04c07131a81e625a516cf7b98a8c7df0df1c1",
-                "reference": "fca04c07131a81e625a516cf7b98a8c7df0df1c1",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/688bce4fa695cc360a0d084e34f029b0c192b223",
+                "reference": "688bce4fa695cc360a0d084e34f029b0c192b223",
                 "shasum": ""
             },
             "replace": {
@@ -5517,9 +5517,9 @@
             ],
             "support": {
                 "issues": "https://github.com/twbs/bootstrap/issues",
-                "source": "https://github.com/twbs/bootstrap/tree/v5.2.0-beta1"
+                "source": "https://github.com/twbs/bootstrap/tree/v5.0.2"
             },
-            "time": "2022-05-13T16:44:01+00:00"
+            "time": "2021-06-22T18:29:16+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

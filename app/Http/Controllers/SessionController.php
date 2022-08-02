@@ -16,12 +16,11 @@ class SessionController extends Controller
         ]);
         // dd($users->status());
         if ($users->status() == 200) {
-            // dd($users);
             $users= $users->json();
+            // dd($users);
             if (isset( $users['SessionId'])) {
                 session_start();
                 $_SESSION['B1SESSION'] = $users['SessionId'];
-                $_SESSION['ROUTEID']= "node1";
         
                 $tipo_d = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
                 ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries'."('TipoDoc')".'/List');

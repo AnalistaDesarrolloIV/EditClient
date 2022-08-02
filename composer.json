@@ -15,7 +15,7 @@
         "league/flysystem-sftp-v3": "3.0",
         "mckenziearts/laravel-notify": "^2.3",
         "realrashid/sweet-alert": "^5.1",
-        "twbs/bootstrap": "5.2.0-beta1"
+        "twbs/bootstrap": "5.0.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

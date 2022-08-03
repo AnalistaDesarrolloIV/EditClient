@@ -20,7 +20,6 @@ class NaturalController extends Controller
     {
         
         session_start();
-        $t_user = $_SESSION['T_USER'];
         $id = $_SESSION['USER'];
 
             try {

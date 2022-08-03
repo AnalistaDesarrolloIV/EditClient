@@ -6,7 +6,7 @@
 <div class="toast align-items-center text-white bg-dark border-0 fixed-bottom p-2 my-2 ml-2" id="alert" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="10000">
     <div class="d-flex">
         <div class="toast-body">
-                <strong><i class="fas fa-info-circle text-info"></i> </strong>Debe ingresar por lo menos un contacto por cada tipo (Contador, Tesorero, Comercial y Logistico ) para poder continuar.
+                <strong><i class="fas fa-info-circle text-info"></i> </strong>Debe ingresar por lo menos un contacto por cada tipo (Contador, Tesorero, Comercial y Logistico ) para poder finalizar.
         </div>
         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>

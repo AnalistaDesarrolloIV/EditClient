@@ -1,16 +1,3 @@
-body{
-    background-image: url('../img/fondologin.jpg');
-    width: 100%;
-    height: 100%;
-    background-attachment: fixed;
-}
-
-.op{
-    background-color: rgba(50, 49, 49 ,0.2);
-}
-.bg-img{
-    background-image: url('../img/sidebar.png');
-}
 .select2{
     width: 100%!important;
     

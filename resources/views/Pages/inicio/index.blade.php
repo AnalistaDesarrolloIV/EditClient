@@ -17,7 +17,7 @@
 
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
         <!-- Styles -->
-        <link rel="stylesheet" href="../css/app.css">
+        <link rel="stylesheet" href="{{url('/')}}/css/app.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
         <link rel="icon" href="{{url('/')}}/img/logo.png">
@@ -29,6 +29,16 @@
         <style>
             body {
                 font-family: 'Nunito', sans-serif;
+                background-image: url("{{url('/')}}/img/fondologin.jpg");
+                width: 100%;
+                height: 100%;
+                background-attachment: fixed;
+            }
+            .op{
+                background-color: rgba(50, 49, 49 ,0.2);
+            }
+            .bg-img{
+                background-image: url("{{url('/')}}/img/sidebar.png");
             }
         </style>
     </head>

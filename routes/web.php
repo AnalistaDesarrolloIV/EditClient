@@ -6,6 +6,7 @@ use App\Http\Controllers\infoPersonalController;
 use App\Http\Controllers\NaturalController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
+use RealRashid\SweetAlert\Facades\Alert;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,41 +19,39 @@ use Illuminate\Support\Facades\Redirect;
 |
 */
 
-Route::get('/', function () {
+Route::get('index/{id}', function ($id) {
 
-    $id = '70550700';
-    session_start();
-
-    $_SESSION['USER'] = $id;
-
-    $users = Http::post('https://10.170.20.95:50000/b1s/v1/Login',[
-        'CompanyDB' => 'INVERSIONES0804',
-        'UserName' => 'Prueba',
-        'Password' => '1234',
-    ]);
-    // dd($users->status());
-    if ($users->status() == 200) {
-        $users= $users->json();
-        // dd($users);
-        if (isset( $users['SessionId'])) {
-            $_SESSION['B1SESSION'] = $users['SessionId'];
+    try {
+        session_start();
     
-            $tipo_d = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
-            ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries'."('TipoDoc')".'/List');
-                
-            $tipo_d = $tipo_d->json();
-            $tipos = $tipo_d['value'];
-            return Redirect('/npersonal');
-            // return view('Pages.consulta.infoPersonal', compact('tipos'));
+        $_SESSION['USER'] = $id;
+    
+        $users = Http::post('https://10.170.20.95:50000/b1s/v1/Login',[
+            'CompanyDB' => 'INVERSIONES0804',
+            'UserName' => 'Prueba',
+            'Password' => '1234',
+        ]);
+        // dd($users->status());
+        if ($users->status() == 200) {
+            $users= $users->json();
+            // dd($users);
+            if (isset( $users['SessionId'])) {
+                $_SESSION['B1SESSION'] = $users['SessionId'];
+        
+                return Redirect()->route('infoPersonal');
+                // return view('Pages.consulta.infoPersonal', compact('tipos'));
+            }else {
+                alert()->warning('¡Atencion!','Ingreso fallido.');
+                return Redirect('https://pagos.ivanagro.com/dashboard');
+            }
         }else {
-            alert()->warning('¡Atencion!','Ingreso fallido.');
-            return redirect('/');
+            alert()->warning('¡Atencion!','Ingreso fallido, por favor verifique su conexión.');
+            return Redirect('https://pagos.ivanagro.com/dashboard');
         }
-    }else {
-        alert()->warning('¡Atencion!','Ingreso fallido, por favor verifique su conexión.');
-        return redirect('/');
+    } catch (\Throwable $th) {
+        Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
+        return Redirect('https://pagos.ivanagro.com/dashboard');
     }
-    // return view('welcome');
 });
 
 Route::get('/login', [SessionController::class, 'login'])->name('login');

@@ -23,7 +23,7 @@
                                 <h1 class=""><b>EDITAR DIRECCIÓN.</b> </h1>
                             </div>
                         </div>
-                        <form action="/ndirupdate/{{$dire['LineNum']}}" method="put" enctype="multipart/form-data">
+                        <form action="ndirupdate/{{$dire['LineNum']}}" method="put" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6">
@@ -232,7 +232,7 @@
                                     <button type="submit" class="btn btn-dark text-white" data-bs-toggle="tooltip" data-bs-placement="top" title="Finalizar edición de dirección">Editar</button>
                                 </div>
                                 <div class="col-12 col-md-4 pb-3 pb-md-0 d-grid gap-2">
-                                    <a href="/ndir" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Volver a la pagina principal de direcciones">Volver</a>
+                                    <a href="{{route('infoDirecciones')}}" class="btn btn-outline-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Volver a la pagina principal de direcciones">Volver</a>
                                 </div>
                             </div>
                         </form>

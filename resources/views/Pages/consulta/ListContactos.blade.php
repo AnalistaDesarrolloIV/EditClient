@@ -25,7 +25,7 @@
                         <div class="row">
                             <div class="col-3 pb-4">
                                 <div class="d-grid gap-2">
-                                    <a href="/ncontcreate"class="btn btn-dark" ><i class="fas fa-plus-circle"></i> Agregar contacto</a>
+                                    <a href="{{route('createContacto')}}"class="btn btn-dark" ><i class="fas fa-plus-circle"></i> Agregar contacto</a>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                     <div class="col-12 mt-2">
                         <div class="row d-flex justify-content-between mb-5">
                             <div class="col-12 col-md-2 pb-2 pb-md-0 d-grid gap-2">
-                                <a href="/ndir" class="btn btn-outline-dark "><i class="fas fa-angle-double-left"></i> Atrás</a>
+                                <a href="{{route('infoDirecciones')}}" class="btn btn-outline-dark "><i class="fas fa-angle-double-left"></i> Atrás</a>
                             </div>
                             <div class="col-12 col-md-2 pb-2 pb-md-0 d-grid gap-2">
                                 <a href="#" class="btn btn-dark">Finalizar <i class="fas fa-angle-double-right"></i></a>

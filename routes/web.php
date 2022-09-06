@@ -19,7 +19,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 |
 */
 
-Route::get('index/{id}', function ($id) {
+Route::get('inicio/{id}', function ($id) {
 
     try {
         session_start();

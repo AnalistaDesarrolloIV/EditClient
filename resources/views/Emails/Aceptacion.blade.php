@@ -12,10 +12,21 @@
         .tittle {
             text-align: center;
         }
+        body {
+                font-family: 'Nunito', sans-serif;
+                background-image: url("{{url('/')}}/img/fondologin.jpg");
+                width: 100%;
+                height: 100%;
+                background-attachment: fixed;
+            }
     </style>
 </head>
 <body>
     <h1 class="tittle">Aceptado tratamiento de datos</h1>
+    <div class="tittle">
+        <img src="https://pagos.ivanagro.com/images/logo-ivanagro.png" width="130rem" alt="Logo IVANagro">
+    </div>
+
     <h3 class="text-center">Información personal</h3>
     <hr>
     <ul class="list-group list-group-flush">

@@ -11,6 +11,44 @@
         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Aceptación tratamiento de datos.</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('email')}}" method="post">
+                    @csrf
+                    <div class="row px-3">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Correo</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" name="correo" aria-describedby="emailHelp">
+                                <div id="emailHelp" class="form-text">Ingresa un correo donde resibira la confirmación de su aceptación de tratamiento de datos.</div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="si" name="aceptacion" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                  Acepta <a class="nav-linck" href="#">tratamiento de datos</a>. 
+                                </label>
+                              </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="relative flex items-top justify-center min-h-screen  sm:items-center py-4 sm:pt-0">
     <div class="container-fluid mt-5">    
         <div class="row justify-center align-items-center ">
@@ -74,13 +112,15 @@
                         </form>
                     </div>
                     
+                    
                     <div class="col-12 mt-2">
                         <div class="row d-flex justify-content-between mb-5">
                             <div class="col-12 col-md-2 pb-2 pb-md-0 d-grid gap-2">
                                 <a href="{{route('infoDirecciones')}}" class="btn btn-outline-dark "><i class="fas fa-angle-double-left"></i> Atrás</a>
                             </div>
-                            <div class="col-12 col-md-2 pb-2 pb-md-0 d-grid gap-2">
-                                <a href="#" class="btn btn-dark">Finalizar <i class="fas fa-angle-double-right"></i></a>
+                            <!-- Button trigger modal -->
+                            <div class="col-12 col-md-2 pb-2 pb-md-0 d-grid gap-2" >
+                                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Finalizar <i class="fas fa-angle-double-right"></i></button>
                             </div>
                         </div>
                     </div>

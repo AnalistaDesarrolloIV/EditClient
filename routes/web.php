@@ -4,7 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\infoPersonalController;
 use App\Http\Controllers\NaturalController;
+use App\Mail\AceptacionMailable;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -21,15 +24,15 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 Route::get('inicio/{id}', function ($id) {
 
-    try {
+    // try {
         session_start();
     
         $_SESSION['USER'] = $id;
     
         $users = Http::post('https://10.170.20.95:50000/b1s/v1/Login',[
-            'CompanyDB' => 'INVERSIONES0804',
-            'UserName' => 'Prueba',
-            'Password' => '1234',
+            'CompanyDB' => 'INVERSIONES',
+            'UserName' => 'Ecommerce',
+            'Password' => '1m3lSlp4w9',
         ]);
         // dd($users->status());
         if ($users->status() == 200) {
@@ -48,10 +51,10 @@ Route::get('inicio/{id}', function ($id) {
             alert()->warning('¡Atencion!','Ingreso fallido, por favor verifique su conexión.');
             return Redirect('https://pagos.ivanagro.com/dashboard');
         }
-    } catch (\Throwable $th) {
-        Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
-        return Redirect('https://pagos.ivanagro.com/dashboard');
-    }
+    // } catch (\Throwable $th) {
+    //     Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
+    //     return Redirect('https://pagos.ivanagro.com/dashboard');
+    // }
 });
 
 Route::get('/login', [SessionController::class, 'login'])->name('login');
@@ -71,7 +74,20 @@ Route::post('/storeContacto', [NaturalController::class, 'storeContacto'])->name
 Route::get('/ncontedit/{name}', [NaturalController::class, 'EditContacto'])->name('EditContacto');
 Route::post('/ncontupdate/{name}', [NaturalController::class, 'updateContacto'])->name('updateContacto');
 
+Route::post('/email', function(Request $request){
+    
+    $inp = $request->all();
+    // dd($inp);
+    $remitente = $inp['correo'];
+    
+    if (isset($inp['aceptacion'])) {
+        $correo = new AceptacionMailable;
+        Mail::to($remitente)->send($correo);
+    }
 
+    alert()->success('Aceptación', 'Correo enviado.');
+    return redirect()->route('infoPersonal');
+})->name('email');
 
 Route::resources([
     'info' => infoPersonalController::class,

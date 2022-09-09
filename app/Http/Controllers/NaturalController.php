@@ -342,7 +342,7 @@ class NaturalController extends Controller
             $contactos = $contact['ContactEmployees'];
             // $contactos = $cont['value'];
 
-            return view('Pages.consulta.listContactos', compact('contactos'));
+            return view('Pages.consulta.ListContactos', compact('contactos'));
         } catch (\Throwable $th) {
             Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
             return Redirect('https://pagos.ivanagro.com/dashboard');

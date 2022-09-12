@@ -42,7 +42,7 @@
                     </div>
                     
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-dark">Enviar</button>
+                        <button type="submit" class="btn btn-dark">Finalizar</button>
                     </div>
                 </form>
             </div>
@@ -120,7 +120,7 @@
                             </div>
                             <!-- Button trigger modal -->
                             <div class="col-12 col-md-2 pb-2 pb-md-0 d-grid gap-2" >
-                                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Finalizar <i class="fas fa-angle-double-right"></i></button>
+                                <button class="btn btn-dark disabled" id="btn_Fin" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Finalizar <i class="fas fa-angle-double-right"></i></button>
                             </div>
                         </div>
                     </div>
@@ -160,6 +160,17 @@
         $(document).ready(function() {
             $('#alert').toast('show');
         });
+
+        let nombre = [];
+        $("#dt").find("tr").each(function (idx, row) {
+            if (idx > 0) {
+                nombre[idx] = $("td:eq(2)", row).text();
+            }
+        });
+
+        if (nombre.length > 1) {
+            $("#btn_Fin").removeClass('disabled');
+        }
 
     </script>
 

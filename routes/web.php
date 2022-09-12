@@ -83,10 +83,14 @@ Route::post('/email', function(Request $request){
     if (isset($inp['aceptacion'])) {
         $correo = new AceptacionMailable;
         Mail::to($remitente)->send($correo);
+
+        alert()->success('Aceptación', 'Correo de aceptación enviado.');
+        return redirect()->route('infoPersonal');
+    }else {
+        alert()->success('Fin', 'Gracias por actualizar su información.');
+        return redirect()->route('infoPersonal');
     }
 
-    alert()->success('Aceptación', 'Correo enviado.');
-    return redirect()->route('infoPersonal');
 })->name('email');
 
 Route::resources([

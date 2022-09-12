@@ -121,7 +121,7 @@
                                 <a href="{{route('infoPersonal')}}" class="btn btn-outline-dark "><i class="fas fa-angle-double-left"></i> Atrás</a>
                             </div>
                             <div class="col-12 col-md-2 pb-2 pb-md-0 d-grid gap-2">
-                                <a href="{{route('infoContactos')}}" class="btn btn-dark">Siguiente <i class="fas fa-angle-double-right"></i></a>
+                                <a href="{{route('infoContactos')}}" id="btn_s" class="btn btn-dark disabled">Siguiente <i class="fas fa-angle-double-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -157,12 +157,34 @@
 @endsection
 @section('script')
 <script>
-        $(document).ready(function() {
-            $('#alert').toast('show');
-        });
+    $(document).ready(function() {
+        $('#alert').toast('show');
+    });
 
 
     $('#nav2').val();
-    console.log($('#nav2').val());
+
+    let nombre = [];
+    $("#dt").find("tr").each(function (idx, row) {
+          if (idx > 0) {
+            nombre[idx] = $("td:eq(2)", row).text();
+        }
+    });
+    
+    let nombre2 = [];
+    $("#dt_2").find("tr").each(function (idx2, row2) {
+          if (idx2 > 0) {
+            nombre2[idx2] = $("td:eq(2)", row2).text();
+        }
+    });
+    
+        // $("#nav_contactos").addClass('disabled');
+
+    if (nombre.length > 1 && nombre2.length >1) {
+        $("#btn_s").removeClass('disabled');
+        $("#nav_contactos").removeClass('disabled');
+    }
+  
+
 </script>
 @endsection

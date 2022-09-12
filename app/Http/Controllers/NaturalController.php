@@ -27,38 +27,34 @@ class NaturalController extends Controller
             $user = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
                 ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry,FreeText,Website&$filter=FederalTaxID eq  ' . "'$id'" . " and CardType eq 'cCustomer'");
 
-            if ($user->successful()) {
-                $user = $user->json();
-                // dd($user);
-                $usuario = $user['value']['0'];
-                $_SESSION['CODUSER'] = $usuario['CardCode'];
-                if (isset($usuario['AttachmentEntry'])) {
-                    $AttachmentEntry = $usuario['AttachmentEntry'];
+            $user = $user->json();
+            // dd($user);
+            $usuario = $user['value']['0'];
+            $_SESSION['CODUSER'] = $usuario['CardCode'];
+            if (isset($usuario['AttachmentEntry'])) {
+                $AttachmentEntry = $usuario['AttachmentEntry'];
 
-                    $doc = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
-                        ->get('https://10.170.20.95:50000/b1s/v1/Attachments2' . "($AttachmentEntry)");
-                    $doc = $doc->json();
-                    $document = $doc['Attachments2_Lines'];
+                $doc = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
+                    ->get('https://10.170.20.95:50000/b1s/v1/Attachments2' . "($AttachmentEntry)");
+                $doc = $doc->json();
+                $document = $doc['Attachments2_Lines'];
 
-                    $tipo_d = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
-                        ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('TipoDoc')" . '/List');
-                    $tipo_d = $tipo_d->json();
-                    $tipos = $tipo_d['value'];
+                $tipo_d = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
+                    ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('TipoDoc')" . '/List');
+                $tipo_d = $tipo_d->json();
+                $tipos = $tipo_d['value'];
 
-                    return view('Pages.consulta.FormEditPerson', compact('usuario', 'document', 'tipos'));
-                } else {
-
-                    $document = null;
-
-                    $tipo_d = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
-                        ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('TipoDoc')" . '/List');
-                    $tipo_d = $tipo_d->json();
-                    $tipos = $tipo_d['value'];
-
-                    return view('Pages.consulta.FormEditPerson', compact('usuario', 'document', 'tipos'));
-                }
+                return view('Pages.consulta.FormEditPerson', compact('usuario', 'document', 'tipos'));
             } else {
-                dd("fallo de conexion");
+
+                $document = null;
+
+                $tipo_d = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
+                    ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('TipoDoc')" . '/List');
+                $tipo_d = $tipo_d->json();
+                $tipos = $tipo_d['value'];
+
+                return view('Pages.consulta.FormEditPerson', compact('usuario', 'document', 'tipos'));
             }
         } catch (\Throwable $th) {
             Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');

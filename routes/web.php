@@ -78,9 +78,9 @@ Route::post('/email', function(Request $request){
     
     $inp = $request->all();
     // dd($inp);
-    $remitente = $inp['correo'];
     
     if (isset($inp['aceptacion'])) {
+        $remitente = $inp['correo'];
         $correo = new AceptacionMailable;
         Mail::to($remitente)->send($correo);
 

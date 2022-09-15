@@ -22,3 +22,126 @@
     </div>
   </div>
 </nav>
+<script>
+    $("#nav_personal").click(function () {
+        
+        $(this).addClass("disabled");
+        $("#nav_direcciones").addClass("disabled");
+        $("#nav_contactos").addClass("disabled");
+        
+        $("#content").html(
+        `
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 text-center ">
+                        <h1 class=""><b>INFORMACIÓN PERSONAL.</b> </h1>
+                    </div>
+                </div>
+
+                <form action="npersonaledit" method="post" enctype="multipart/form-data">
+                    <div class="row my-5">
+                        <div class="col-12 my-5">
+                            <div class="text-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p>Cargando formulario..</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-end my-2">
+                        <div class="col-12 col-md-4 pb-3 pb-md-0 d-grid gap-2">
+                            <button type="button" class="btn btn-dark text-white" disabled>Editar y siguiente <i class="fas fa-angle-double-right"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        `
+        ) ;
+    });
+
+    $("#nav_direcciones").click(function () {
+        
+        $("#nav_personal").addClass("disabled");
+        $(this).addClass("disabled");
+        $("#nav_contactos").addClass("disabled");
+        
+        $("#content").html(
+        `
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h1 class=""><b>DIRECCIONES.</b> </h1>
+                    </div>
+                </div>
+
+                <form action="npersonaledit" method="post" enctype="multipart/form-data">
+                    <div class="row my-5">
+                        <div class="col-12 my-5">
+                            <div class="text-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p>Cargando Direcciones..</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <div class="row d-flex justify-content-between mb-5">
+                            <div class="col-12 col-md-2 pb-2 pb-md-0 d-grid gap-2">
+                                <button type="button" class="btn btn-outline-dark " disabled><i class="fas fa-angle-double-left"></i> Atrás</button>
+                            </div>
+                            <div class="col-12 col-md-2 pb-2 pb-md-0 d-grid gap-2">
+                                <button type="button" class="btn btn-dark disabled" disabled>Siguiente <i class="fas fa-angle-double-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        `
+        ) ;
+    });
+    
+    $("#nav_contactos").click(function () {
+        
+        $("#nav_personal").addClass("disabled");
+        $("#nav_direcciones").addClass("disabled");
+        $(this).addClass("disabled");
+        
+        $("#content").html(
+        `
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h1 class=""><b>CONTACTOS.</b> </h1>
+                    </div>
+                </div>
+
+                <form action="npersonaledit" method="post" enctype="multipart/form-data">
+                    <div class="row my-5">
+                        <div class="col-12 my-5">
+                            <div class="text-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p>Cargando Cotactos..</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-2">
+                        <div class="row d-flex justify-content-between mb-5">
+                            <div class="col-12 col-md-2 pb-2 pb-md-0 d-grid gap-2">
+                                <button type="button" class="btn btn-outline-dark " disabled><i class="fas fa-angle-double-left"></i> Atrás</button>
+                            </div>
+                            <!-- Button trigger modal -->
+                            <div class="col-12 col-md-2 pb-2 pb-md-0 d-grid gap-2" >
+                                <button class="btn btn-dark disabled">Finalizar <i class="fas fa-angle-double-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        `
+        ) ;
+    });
+</script>

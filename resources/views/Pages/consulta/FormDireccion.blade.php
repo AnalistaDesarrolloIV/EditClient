@@ -23,7 +23,7 @@
                                 <h1 class=""><b>EDITAR DIRECCIÓN.</b> </h1>
                             </div>
                         </div>
-                        <form action="ndirupdate/{{$dire['LineNum']}}" method="put" enctype="multipart/form-data">
+                        <form action="{{route('updateDirecciones',$dire['LineNum'])}}" method="put" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6">
@@ -248,6 +248,27 @@
 <style>
     .activar2{
         border-bottom: white solid 2px;
+    }
+    
+    .select2{
+    width: 100%!important;
+    
+    }
+    .select2-container--bootstrap-5 .select2-selection{
+        min-height:3.5rem!important;
+    }
+    .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
+        padding-top: 10px!important;
+    }
+    .select2-container .select2-selection--single .select2-selection__rendered{
+        padding-right: 0px!important;
+    }
+    .select2-container--bootstrap-5 .select2-selection--single{
+        background-position: right 0.75rem center!important;
+    }
+    .hov_menu:hover{
+        background: rgba(0,0,0,0.3);
+        position: absolute;
     }
 </style>
 

@@ -23,7 +23,7 @@
                             <h1 class=""><b>EDITAR CONTACTO.</b> </h1>
                         </div>
                     </div>
-                    <form action="ncontupdate/{{$contacto['InternalCode']}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('updateContacto',$contacto['InternalCode'])}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <input type="hidden" class="form-control " id="floatingInput" placeholder="" value="{{$contacto['CardCode']}}" name="CardCode" readonly required >

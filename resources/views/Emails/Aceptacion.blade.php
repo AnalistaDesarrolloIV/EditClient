@@ -20,6 +20,7 @@
                 background-attachment: fixed;
             }
             .container {
+                background-image: url("https://pagos.ivanagro.com/images/fondo.jpg");
                 border: 1px solid black;
                 border-radius: 10px;
                 padding-left: 10px;
@@ -28,11 +29,13 @@
     </style>
 </head>
 <body>
-    <h1 class="tittle">Aceptado tratamiento de datos</h1>
-    <div class="tittle">
-        <img src="https://pagos.ivanagro.com/images/logo-ivanagro.png" width="130rem" alt="Logo IVANagro">
-    </div>
     <div class="container">
+        <h1 class="tittle">Aceptado tratamiento de datos</h1>
+        <div class="tittle">
+            <img src="https://pagos.ivanagro.com/images/logo-ivanagro.png" width="130rem" alt="Logo IVANagro">
+        </div>
+        <br>
+        <hr>
         <h3 class="text-center">Información personal</h3>
         <hr>
         <ul class="list-group list-group-flush">
@@ -44,6 +47,8 @@
             <li class="list-group-item"><b>Comentarios:</b> {{$user['FreeText']}}</li>
         </ul>
         
+        <br>
+        <hr>
         <h3 class="text-center">Direcciones</h3>
         <hr>
     
@@ -61,6 +66,8 @@
     
     
         
+        <br>
+        <hr>
         <h3 class="text-center">Contactos</h3>
         <hr>
     

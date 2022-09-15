@@ -73,7 +73,7 @@
                                 <div class="col">
                                     <div class="table-responsive">
                                         <table class="table table-bordered border-dark" id="dt">
-                                            <thead>
+                                            <thead class="table-dark">
                                                 <tr>
                                                     <th>Acciones</th>
                                                     <th>Tipo de contacto</th>
@@ -133,21 +133,7 @@
 
 @section('css')
 <style>
-    .dataTables_wrapper{
-        color: #212529!important;
-        font-weight: bold!important;
-    }
-    div.dataTables_wrapper div.dataTables_length label, div.dataTables_filter label {
-        font-weight: bold!important;
-    }
-    div.dataTables_wrapper div.dataTables_length label select, div.dataTables_filter label input{
-        color: white!important;
-        background: #212529!important;
-    }
-    .paginate_button a{
-        color: white !important;
-        background-color: #212529!important;
-    }
+
     .activar3{
         border-bottom: white solid 2px;
     }

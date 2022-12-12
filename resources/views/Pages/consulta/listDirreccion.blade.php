@@ -52,17 +52,17 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($direccion as $key => $val)
-                                                    @if($direccion[$key]['Tipo_Direccion'] == "S")
+                                                @foreach($dir as $key => $val)
+                                                    @if($dir[$key]['Tipo_Direccion'] == "S")
                                                         <tr>
-                                                            <td class="text-center edit_d"><a href="/ndiredit/{{$direccion[$key]['LineNum']}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar dirección N°{{$direccion[$key]['LineNum']}}"><i class="fas fa-pen"></i></a></td>
-                                                            <td>{{$direccion[$key]['LineNum']}}</td>
-                                                            <td>{{$direccion[$key]['Nombre_Direccion']}}</td>
-                                                            <td>{{$direccion[$key]['Direccion_fisica']}}</td>
-                                                            <td>{{$direccion[$key]['Departamento']}}</td>
-                                                            <td>{{$direccion[$key]['Ciudad']}}</td>
-                                                            <td>{{$direccion[$key]['Barrio_Vereda_Corregimiento']}}</td>
-                                                            <td>{{$direccion[$key]['Codigo_Postal']}}</td>
+                                                            <td class="text-center"><a class=" edit_d" href="/ndiredit/{{$dir[$key]['LineNum']}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar dirección N°{{$dir[$key]['LineNum']}}"><i class="fas fa-pen"></i></a></td>
+                                                            <td>{{$dir[$key]['LineNum']}}</td>
+                                                            <td>{{$dir[$key]['Nombre_Direccion']}}</td>
+                                                            <td>{{$dir[$key]['Direccion_fisica']}}</td>
+                                                            <td>{{$dir[$key]['Departamento']}}</td>
+                                                            <td>{{$dir[$key]['Ciudad']}}</td>
+                                                            <td>{{$dir[$key]['Barrio_Vereda_Corregimiento']}}</td>
+                                                            <td>{{$dir[$key]['Codigo_Postal']}}</td>
                                                         </tr>
                                                     @endif
                                                 @endforeach
@@ -95,17 +95,17 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($direccion as $key => $val)
-                                                    @if($direccion[$key]['Tipo_Direccion'] == "B")
+                                                @foreach($dir as $key => $val)
+                                                    @if($dir[$key]['Tipo_Direccion'] == "B")
                                                         <tr>
-                                                            <td class="text-center edit_d"><a href="/ndiredit/{{$direccion[$key]['LineNum']}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar dirección N°{{$direccion[$key]['LineNum']}}"><i class="fas fa-pen"></i></a></td>
-                                                            <td>{{$direccion[$key]['LineNum']}}</td>
-                                                            <td>{{$direccion[$key]['Nombre_Direccion']}}</td>
-                                                            <td>{{$direccion[$key]['Direccion_fisica']}}</td>
-                                                            <td>{{$direccion[$key]['Departamento']}}</td>
-                                                            <td>{{$direccion[$key]['Ciudad']}}</td>
-                                                            <td>{{$direccion[$key]['Barrio_Vereda_Corregimiento']}}</td>
-                                                            <td>{{$direccion[$key]['Codigo_Postal']}}</td>
+                                                            <td class="text-center"><a class=" edit_d" href="/ndiredit/{{$dir[$key]['LineNum']}}" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar dirección N°{{$dir[$key]['LineNum']}}"><i class="fas fa-pen"></i></a></td>
+                                                            <td>{{$dir[$key]['LineNum']}}</td>
+                                                            <td>{{$dir[$key]['Nombre_Direccion']}}</td>
+                                                            <td>{{$dir[$key]['Direccion_fisica']}}</td>
+                                                            <td>{{$dir[$key]['Departamento']}}</td>
+                                                            <td>{{$dir[$key]['Ciudad']}}</td>
+                                                            <td>{{$dir[$key]['Barrio_Vereda_Corregimiento']}}</td>
+                                                            <td>{{$dir[$key]['Codigo_Postal']}}</td>
                                                         </tr>
                                                     @endif
                                                 @endforeach

@@ -23,13 +23,13 @@
                                 <h1 class=""><b>EDITAR DIRECCIÓN.</b> </h1>
                             </div>
                         </div>
-                        <form action="{{route('updateDirecciones',$dire['LineNum'])}}" method="put" enctype="multipart/form-data" id="form_edit_d">
+                        <form action="{{route('updateDirecciones',$dir['LineNum'])}}" method="put" enctype="multipart/form-data" id="form_edit_d">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-floating mb-3">
                                         <select class="form-select @error('AddressType') is-invalid @enderror" id="tipo_d"  name="AddressType">
-                                            @if($dire['Tipo_Direccion'] == "B")
+                                            @if($dir['Tipo_Direccion'] == "B")
                                                 <option value="bo_BillTo" selected>Direccion de facturación.</option>
                                             @else
                                                 <option value="bo_ShipTo" selected>Direccion de envío.</option>
@@ -43,7 +43,7 @@
                                 </div>
                                 <!-- <div class="col-md-6">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control @error('AddressType') is-invalid @enderror" id="tipo_d" value="{{$dire['Tipo_Direccion']}}" name="AddressType" >
+                                        <input type="text" class="form-control @error('AddressType') is-invalid @enderror" id="tipo_d" value="{{$dir['Tipo_Direccion']}}" name="AddressType" >
                                         <label for="tipo_d">Tipo de dirección. <b style="font-size: 18px; color: red;">*</b></label>
                                         @error('AddressType')
                                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -52,7 +52,7 @@
                                 </div> -->
                                 <div class="col-md-6">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" value="{{$dire['Nombre_Direccion']}}" name="Nombre_Direccion"  >
+                                        <input type="text" class="form-control @error('Nombre_Direccion') is-invalid @enderror" id="floatingInput" value="{{$dir['Nombre_Direccion']}}" name="Nombre_Direccion"  >
                                         <label for="floatingInput">Nombre de sede/establecimieto/granja/sucursal. <b style="font-size: 18px; color: red;">*</b></label>
                                     @error('Nombre_Direccion')
                                         <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -141,7 +141,7 @@
 
                                 <div class="col-lg-6">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control @error('Barrio_Vereda_Corregimiento') is-invalid @enderror" id="floatingInput" value="{{$dire['Barrio_Vereda_Corregimiento']}}" name="Barrio_Vereda_Corregimiento" >
+                                        <input type="text" class="form-control @error('Barrio_Vereda_Corregimiento') is-invalid @enderror" id="floatingInput" value="{{$dir['Barrio_Vereda_Corregimiento']}}" name="Barrio_Vereda_Corregimiento" >
                                         <label for="floatingInput">Barrio/vereda/corregimiento. <b style="font-size: 18px; color: red;">*</b></label>
                                     @error('Barrio_Vereda_Corregimiento')
                                         <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
@@ -218,7 +218,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3 @error('Direccion_fisica') is-invalid @enderror">
-                                        <input type="text" class="form-control" id="direccion_completa" placeholder="name@example.com" value="{{$dire['Direccion_fisica']}}" name="Direccion_fisica" readonly >
+                                        <input type="text" class="form-control" id="direccion_completa" placeholder="name@example.com" value="{{$dir['Direccion_fisica']}}" name="Direccion_fisica" readonly >
                                         <label for="direccion_completa">Dirección fisica. <b style="font-size: 18px; color: red;">*</b></label>
                                     @error('Direccion_fisica')
                                         <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>

@@ -33,7 +33,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="si" name="aceptacion" id="acept" onclick="check()">
                                     <label class="form-check-label" for="acept">
-                                    Acepta <a class="trat_date" href="#">tratamiento de datos</a>. 
+                                    Acepta <a class="trat_date" target="_blank" href="http://www.ivanagro.com/politicas-de-tratamiento-de-informacion/">tratamiento de datos</a>. 
                                     </label>
                                 </div>
                             </div>
@@ -81,14 +81,14 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($contactos as $key => $val)
+                                                    @foreach($contact as $key => $val)
                                                     <tr>
-                                                        <td class="text-center edit_c"><a href="/ncontedit/{{$contactos[$key]['Name']}}"><i class="fas fa-pen"></i></a></td>
-                                                        <td>{{$contactos[$key]['Name']}}</td>
-                                                        <td>{{$contactos[$key]['FirstName']." ". $contactos[$key]['MiddleName']." ". $contactos[$key]['LastName']}}</td>
-                                                        <td>{{$contactos[$key]['E_Mail']}}</td>
+                                                        <td class="text-center"><a class=" edit_c" href="/ncontedit/{{$contact[$key]['Name']}}"><i class="fas fa-pen"></i></a></td>
+                                                        <td>{{$contact[$key]['Name']}}</td>
+                                                        <td>{{$contact[$key]['FirstName']." ". $contact[$key]['MiddleName']." ". $contact[$key]['LastName']}}</td>
+                                                        <td>{{$contact[$key]['E_Mail']}}</td>
                                                         <td>
-                                                                {{$contactos[$key]['MobilePhone']}}
+                                                                {{$contact[$key]['MobilePhone']}}
                                                         </td>
                                                     </tr>
                                                     @endforeach
@@ -384,5 +384,4 @@
         });
 
     </script>
-
 @endsection

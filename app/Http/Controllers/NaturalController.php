@@ -24,37 +24,36 @@ class NaturalController extends Controller
             session_start();
             $id = $_SESSION['USER'];
 
-            $user = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
-                ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry,FreeText,Website&$filter=FederalTaxID eq  ' . "'$id'" . " and CardType eq 'cCustomer'");
+            $user = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])
+                ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry,FreeText,Website&$filter=FederalTaxID eq  ' . "'$id'" . " and CardType eq 'cCustomer'")['value']['0'];
 
-            $user = $user->json();
             // dd($user);
-            $usuario = $user['value']['0'];
-            $_SESSION['CODUSER'] = $usuario['CardCode'];
-            if (isset($usuario['AttachmentEntry'])) {
-                $AttachmentEntry = $usuario['AttachmentEntry'];
 
-                $doc = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
-                    ->get('https://10.170.20.95:50000/b1s/v1/Attachments2' . "($AttachmentEntry)");
-                $doc = $doc->json();
-                $document = $doc['Attachments2_Lines'];
+            $_SESSION['CODUSER'] = $user['CardCode'];
+            if (isset($user['AttachmentEntry'])) {
+                $AttachmentEntry = $user['AttachmentEntry'];
 
-                $tipo_d = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
-                    ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('TipoDoc')" . '/List');
-                $tipo_d = $tipo_d->json();
-                $tipos = $tipo_d['value'];
+                $doc = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])
+                    ->get('https://10.170.20.95:50000/b1s/v1/Attachments2' . "($AttachmentEntry)")['Attachments2_Lines'];
+                // $doc = $doc->json();
+                // $doc = $doc['Attachments2_Lines'];
 
-                return view('Pages.consulta.FormEditPerson', compact('usuario', 'document', 'tipos'));
+                $tipo_d = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])
+                    ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('TipoDoc')" . '/List')['value'];
+                // $tipo_d = $tipo_d->json();
+                // $tipo_d = $tipo_d['value'];
+
+                return view('Pages.consulta.FormEditPerson', compact('user', 'doc', 'tipo_d'));
             } else {
 
-                $document = null;
+                $doc = null;
 
-                $tipo_d = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
-                    ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('TipoDoc')" . '/List');
-                $tipo_d = $tipo_d->json();
-                $tipos = $tipo_d['value'];
+                $tipo_d = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])
+                    ->get('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('TipoDoc')" . '/List')['value'];
+                // $tipo_d = $tipo_d->json();
+                // $tipo_d = $tipo_d['value'];
 
-                return view('Pages.consulta.FormEditPerson', compact('usuario', 'document', 'tipos'));
+                return view('Pages.consulta.FormEditPerson', compact('user', 'doc', 'tipo_d'));
             }
         } catch (\Throwable $th) {
             Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
@@ -84,19 +83,17 @@ class NaturalController extends Controller
                 foreach ($archivos as $key => $value) {
                     $arch = $value;
                     $nombreArch =  time() . "-" . $_SESSION['CODUSER'] . "-" . $arch->getClientOriginalName();
-                    // $g = Storage::disk('public')->put("docs", $arch);
-                    // dd($g);
-                    // $arch->storage(public_path().'/docs', $nombreArch);  
+                    
                     $url = url('') . 'storage/docs';
                     $g = move_uploaded_file($arch, "//10.170.20.124/SAP-compartida/Carpeta_anexos/$nombreArch");
                     // dd($g);
 
-                    $user = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
-                        ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry,FreeText,Website&$filter=FederalTaxID eq ' . "'$user_id'" . " and CardType eq 'cCustomer'");
-                    $user = $user['value'][0];
+                    $user = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])
+                        ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners?$select=FederalTaxID,U_HBT_TipDoc, CardCode,CardType,CardName,EmailAddress,Phone1,Phone2,AttachmentEntry,FreeText,Website&$filter=FederalTaxID eq ' . "'$user_id'" . " and CardType eq 'cCustomer'")['value'][0];
+                   
 
                     if (!isset($user['AttachmentEntry'])) {
-                        $doc = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
+                        $doc = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])
                             ->post('https://10.170.20.95:50000/b1s/v1/Attachments2', [
                                 'Attachments2_Lines' => [[
                                     'FileName' => $nombreArch,
@@ -107,7 +104,7 @@ class NaturalController extends Controller
                         $id_doc = $document['AbsoluteEntry'];
                     } else {
                         $AttachmentEntry = $user['AttachmentEntry'];
-                        $doc = Http::retry(20, 300)->withToken($_SESSION['B1SESSION'])
+                        $doc = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])
                             ->patch('https://10.170.20.95:50000/b1s/v1/Attachments2' . "($AttachmentEntry)", [
                                 'Attachments2_Lines' => [[
                                     'FileName' => $nombreArch,
@@ -117,7 +114,7 @@ class NaturalController extends Controller
                         $id_doc = $AttachmentEntry;
                     }
                     do {
-                        $insert = Http::withToken($_SESSION['B1SESSION'])
+                        $insert = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])
                             ->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$id')", [
                                 'CardCode' => $input['CardCode'],
                                 'U_HBT_TipDoc' => $input['U_HBT_TipDoc'],
@@ -134,7 +131,7 @@ class NaturalController extends Controller
                 }
             } else {
                 do {
-                    $insert = Http::withToken($_SESSION['B1SESSION'])
+                    $insert = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])
                         ->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$id')", [
                             'CardCode' => $input['CardCode'],
                             'U_HBT_TipDoc' => $input['U_HBT_TipDoc'],
@@ -165,13 +162,13 @@ class NaturalController extends Controller
             session_start();
             $id = $_SESSION['CODUSER'];
 
-            $dir = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
-                ->get('https://10.170.20.95:50000/b1s/v1/sml.svc/DIRECCIONES?$filter = Codigo_Cliente eq ' . "'$id'");
+            $dir = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])
+                ->get('https://10.170.20.95:50000/b1s/v1/sml.svc/DIRECCIONES?$filter = Codigo_Cliente eq ' . "'$id'")['value'];
 
-            $dir = $dir->json();
-            $direccion = $dir['value'];
+            // $dir = $dir->json();
+            // $direccion = $dir['value'];
 
-            return view('Pages.consulta.listDirreccion', compact('direccion'));
+            return view('Pages.consulta.listDirreccion', compact('dir'));
         } catch (\Throwable $th) {
             Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
             return Redirect('https://pagos.ivanagro.com/dashboard');
@@ -180,22 +177,22 @@ class NaturalController extends Controller
 
     public function createDireccion()
     {
-        try {
+        // try {
             session_start();
-            $dep = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])->post('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('Municipios2')" . '/List');
+            $dep = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])->post('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('Municipios2')" . '/List')['value'];
 
-            $dep = $dep['value'];
+            // $dep = $dep['value'];
             // dd($dep);
 
-            $postal = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])->post('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('CodigoPostales')" . '/List');
+            $postal = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])->post('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('CodigoPostales')" . '/List')['value'];
 
-            $postal = $postal['value'];
+            // $postal = $postal['value'];
 
             return view('Pages.consulta.createDireccion', compact('dep', 'postal'));
-        } catch (\Throwable $th) {
-            Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
-            return Redirect('https://pagos.ivanagro.com/dashboard');
-        }
+        // } catch (\Throwable $th) {
+        //     Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
+        //     return Redirect('https://pagos.ivanagro.com/dashboard');
+        // }
     }
 
     public function storeDireccion(storeDireccion $request)
@@ -204,10 +201,10 @@ class NaturalController extends Controller
             $input = $request->all();
             // dd($input);
             session_start();
-            $dep = Http::retry('20,300')->withToken($_SESSION['B1SESSION'])->post('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('Municipios2')" . '/List');
+            $dep = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])->post('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('Municipios2')" . '/List')['value'];
 
 
-            $dep = $dep['value'];
+            // $dep = $dep['value'];
             foreach ($dep as $key => $value) {
                 if ($dep[$key]['Code'] == $input['Ciudad']) {
                     $ciudad_name = $dep[$key]['Name'];
@@ -218,7 +215,7 @@ class NaturalController extends Controller
             $AddressName = mb_strtoupper($input['Nombre_Direccion'], 'UTF-8');
             $Block = mb_strtoupper($input['Barrio_Vereda_Corregimiento'], 'UTF-8');
 
-            $create = Http::retry('20, 300')->withToken($_SESSION['B1SESSION'])->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$id')" . '?$select=BPAddresses', [
+            $create = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$id')" . '?$select=BPAddresses', [
                 'BPAddresses' => [
                     [
                         "AddressName" => $AddressName,
@@ -247,53 +244,51 @@ class NaturalController extends Controller
 
     public function EditDirecciones($id)
     {
-        try {
+        // try {
             session_start();
             $codigo = $_SESSION['CODUSER'];
 
-            $dir = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
-                ->get('https://10.170.20.95:50000/b1s/v1/sml.svc/DIRECCIONES?$filter=Codigo_Cliente eq ' . "'$codigo'" . "and LineNum eq " . "'$id'");
+            $dir = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])
+                ->get('https://10.170.20.95:50000/b1s/v1/sml.svc/DIRECCIONES?$filter=Codigo_Cliente eq ' . "'$codigo'" . "and LineNum eq " . "'$id'")['value'][0];
 
-            $dir = $dir->json();
-            $dire = $dir['value'][0];
+            // $dir = $dir->json();
+            // $dire = $dir['value'][0];
 
-            $dep = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])->post('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('Municipios2')" . '/List');
+            $dep = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])->post('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('Municipios2')" . '/List')['value'];
 
-            $dep = $dep['value'];
+            // $dep = $dep['value'];
 
-            $postal = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])->post('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('CodigoPostales')" . '/List');
+            $postal = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])->post('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('CodigoPostales')" . '/List')['value'];
 
-            $postal = $postal['value'];
+            // $postal = $postal['value'];
 
-            return view('Pages.consulta.FormDireccion', compact('dire', 'dep', 'postal'));
-        } catch (\Throwable $th) {
-            Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
-            return Redirect('https://pagos.ivanagro.com/dashboard');
-        }
+            return view('Pages.consulta.FormDireccion', compact('dir', 'dep', 'postal'));
+        // } catch (\Throwable $th) {
+        //     Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
+        //     return Redirect('https://pagos.ivanagro.com/dashboard');
+        // }
     }
 
     public function updateDirecciones(storeDireccion $request, $id)
     {
-        try {
+        // try {
             $input = $request->all();
             // dd($input);
             session_start();
-            $dep = Http::retry('20, 300')->withToken($_SESSION['B1SESSION'])->post('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('Municipios2')" . '/List');
+            $dep = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])->post('https://10.170.20.95:50000/b1s/v1/SQLQueries' . "('Municipios2')" . '/List')['value'];
 
 
-            $dep = $dep['value'];
             foreach ($dep as $key => $value) {
                 if ($dep[$key]['Code'] == $input['Ciudad']) {
                     $ciudad_name = $dep[$key]['Name'];
                 }
             }
-            // dd($ciudad_name);
 
             $cod = $_SESSION['CODUSER'];
             $AddressName = mb_strtoupper($input['Nombre_Direccion'], 'UTF-8');
             $Block = mb_strtoupper($input['Barrio_Vereda_Corregimiento'], 'UTF-8');
 
-            $update = Http::retry('20, 300')->withToken($_SESSION['B1SESSION'])->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$cod')" . '?$select=BPAddresses', [
+            $update = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$cod')" . '?$select=BPAddresses', [
                 'BPAddresses' => [
                     [
                         "AddressName" => $AddressName,
@@ -315,10 +310,10 @@ class NaturalController extends Controller
             // dd($update->json());
             alert()->success('Dirección', 'Dirección Editada exitosamente.');
             return Redirect()->route('infoDirecciones');
-        } catch (\Throwable $th) {
-            Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
-            return Redirect('https://pagos.ivanagro.com/dashboard');
-        }
+        // } catch (\Throwable $th) {
+        //     Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
+        //     return Redirect('https://pagos.ivanagro.com/dashboard');
+        // }
     }
 
 
@@ -327,22 +322,22 @@ class NaturalController extends Controller
 
     public function infoContactos()
     {
-        try {
+        // try {
             session_start();
             $id = $_SESSION['CODUSER'];
 
-            $contact = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
-                ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$id')" . '?$select=ContactEmployees');
+            $contact = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])
+                ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$id')" . '?$select=ContactEmployees')['ContactEmployees'];
 
-            $contact = $contact->json();
-            $contactos = $contact['ContactEmployees'];
+            // $contact = $contact->json();
+            // $contactos = $contact['ContactEmployees'];
             // $contactos = $cont['value'];
 
-            return view('Pages.consulta.ListContactos', compact('contactos'));
-        } catch (\Throwable $th) {
-            Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
-            return Redirect('https://pagos.ivanagro.com/dashboard');
-        }
+            return view('Pages.consulta.ListContactos', compact('contact'));
+        // } catch (\Throwable $th) {
+        //     Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
+        //     return Redirect('https://pagos.ivanagro.com/dashboard');
+        // }
     }
 
     public function createContacto()
@@ -352,7 +347,7 @@ class NaturalController extends Controller
 
     public function storeContacto(storeContactos $request)
     {
-        try {
+        // try {
             $input = $request->all();
 
             session_start();
@@ -360,11 +355,11 @@ class NaturalController extends Controller
 
             if ($input['Name'] == "Comercial") {
 
-                $contact = Http::retry('20, 300')->withToken($_SESSION['B1SESSION'])
-                    ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$id')" . '?$select=ContactEmployees');
+                $contact = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])
+                    ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$id')" . '?$select=ContactEmployees')['ContactEmployees'];
 
-                $contact = $contact->json();
-                $contact = $contact['ContactEmployees'];
+                // $contact = $contact->json();
+                // $contact = $contact['ContactEmployees'];
                 $ccont = 1;
                 $com = mb_strtoupper($input['Name'], 'UTF-8');
                 foreach ($contact as $key => $value) {
@@ -389,7 +384,7 @@ class NaturalController extends Controller
                 $MiddleName =  mb_strtoupper($input['MiddleName']);
                 $LastName =  mb_strtoupper($input['LastName']);
                 $Profession =  mb_strtoupper($input['Profession']);
-                $insertCont = Http::retry('20, 300')->withToken($_SESSION['B1SESSION'])
+                $insertCont = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])
                     ->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$id')" . '?$select=ContactEmployees', [
                         'ContactEmployees' => [[
                             'Name' => $com,
@@ -403,16 +398,15 @@ class NaturalController extends Controller
                             'Profession' =>  $Profession
                         ]]
                     ]);
-                $insertCont = $insertCont->json();
 
                 alert()->success('Contacto', 'Contacto creado exitosamente.');
                 return Redirect()->route('infoContactos');
             } else {
-                $contact = Http::retry('20, 300')->withToken($_SESSION['B1SESSION'])
-                    ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$id')" . '?$select=ContactEmployees');
+                $contact = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])
+                    ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$id')" . '?$select=ContactEmployees')['ContactEmployees'];
 
-                $contact = $contact->json();
-                $contact = $contact['ContactEmployees'];
+                // $contact = $contact->json();
+                // $contact = $contact['ContactEmployees'];
                 $ccont = 0;
                 $com = mb_strtoupper($input['Name'], 'UTF-8');
                 foreach ($contact as $key => $value) {
@@ -436,7 +430,7 @@ class NaturalController extends Controller
                 $MiddleName =  mb_strtoupper($input['MiddleName']);
                 $LastName =  mb_strtoupper($input['LastName']);
                 $Profession =  mb_strtoupper($input['Profession']);
-                $insertCont = Http::withToken($_SESSION['B1SESSION'])
+                $insertCont = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])
                     ->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$id')" . '?$select=ContactEmployees', [
                         'ContactEmployees' => [[
                             'Name' => $com,
@@ -450,40 +444,39 @@ class NaturalController extends Controller
                             'Profession' =>  $Profession
                         ]]
                     ]);
-                $insertCont = $insertCont->json();
 
                 alert()->success('Contacto', 'Contacto creado exitosamente.');
                 return Redirect()->route('infoContactos');
             }
-        } catch (\Throwable $th) {
-            Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
-            return Redirect('https://pagos.ivanagro.com/dashboard');
-        }
+        // } catch (\Throwable $th) {
+        //     Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
+        //     return Redirect('https://pagos.ivanagro.com/dashboard');
+        // }
     }
 
     public function EditContacto($name)
     {
-        try {
+        // try {
             session_start();
             $cod = $_SESSION['CODUSER'];
 
-            $contact = Http::retry(20, 400)->withToken($_SESSION['B1SESSION'])
-                ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$cod')" . '?$select=ContactEmployees');
+            $contact = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])
+                ->get('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$cod')" . '?$select=ContactEmployees')['ContactEmployees'];
 
-            $contact = $contact->json();
-            $contactos = $contact['ContactEmployees'];
+            // $contact = $contact->json();
+            // $contactos = $contact['ContactEmployees'];
 
-            foreach ($contactos as $key => $value) {
-                if ($contactos[$key]['Name'] == $name) {
-                    $contacto = $contactos[$key];
+            foreach ($contact as $key => $value) {
+                if ($contact[$key]['Name'] == $name) {
+                    $contacto = $contact[$key];
                 }
             }
 
             return view('Pages.consulta.FormContacto', compact('contacto'));
-        } catch (\Throwable $th) {
-            Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
-            return Redirect('https://pagos.ivanagro.com/dashboard');
-        }
+        // } catch (\Throwable $th) {
+        //     Alert::warning('¡La sección expiro!', 'Por favor vuleve a acceder');
+        //     return Redirect('https://pagos.ivanagro.com/dashboard');
+        // }
     }
 
     public function updateContacto(storeContactos $request, $id)
@@ -511,7 +504,7 @@ class NaturalController extends Controller
             } else {
                 $phone2 = "";
             }
-            $update = Http::retry('20, 300')->withToken($_SESSION['B1SESSION'])->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$cod')", [
+            $update = Http::retry(20, 50)->withToken($_SESSION['B1SESSION'])->patch('https://10.170.20.95:50000/b1s/v1/BusinessPartners' . "('$cod')", [
                 "ContactEmployees" => [
                     [
                         "InternalCode" => $id,

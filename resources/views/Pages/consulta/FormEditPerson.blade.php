@@ -45,16 +45,16 @@
                             <form action="{{route('editPersonal')}}" method="post" enctype="multipart/form-data" id="form_person">
                                 @csrf
                                 <div class="row">
-                                    <input type="hidden" value="{{$usuario['AttachmentEntry']}}" name="AttachmentEntry">
-                                    <input type="hidden" value="{{$usuario['CardCode']}}" name="CardCode">
-                                    <input type="hidden" value="{{$usuario['U_HBT_TipDoc']}}" name="U_HBT_TipDoc">
+                                    <input type="hidden" value="{{$user['AttachmentEntry']}}" name="AttachmentEntry">
+                                    <input type="hidden" value="{{$user['CardCode']}}" name="CardCode">
+                                    <input type="hidden" value="{{$user['U_HBT_TipDoc']}}" name="U_HBT_TipDoc">
                                         
                                     <div class="col-md-6 col-12">
                                         <div class="form-floating mb-3">
-                                            @foreach($tipos as $key => $val)
-                                                @if($usuario['U_HBT_TipDoc'] == $tipos[$key]['Code'])
+                                            @foreach($tipo_d as $key => $val)
+                                                @if($user['U_HBT_TipDoc'] == $tipo_d[$key]['Code'])
                                                     <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" 
-                                                    value="{{$tipos[$key]['Name']}}" name="U_HBT_TipDoc_name"
+                                                    value="{{$tipo_d[$key]['Name']}}" name="U_HBT_TipDoc_name"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     data-bs-custom-class="custom-tooltip"
                                                     title="Campo tipo de documento ineditable." readonly>
@@ -66,7 +66,7 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com"
-                                            value="{{$usuario['FederalTaxID']}}" name="FederalTaxID" 
+                                            value="{{$user['FederalTaxID']}}" name="FederalTaxID" 
                                             data-bs-toggle="tooltip" data-bs-placement="top"
                                             data-bs-custom-class="custom-tooltip"
                                             title="Campo numero de identificacion ineditable."
@@ -77,7 +77,7 @@
                                     <div class="col-12">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" 
-                                            value="{{$usuario['CardName']}}" name="CardName" 
+                                            value="{{$user['CardName']}}" name="CardName" 
                                             data-bs-toggle="tooltip" data-bs-placement="top"
                                             data-bs-custom-class="custom-tooltip"
                                             title="Campo nombre ineditable, en caso de estar mal escrito o desee edirlo debera solicitarlo a la empresa."
@@ -88,7 +88,7 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control @error('Phone1') is-invalid @enderror" id="floatingInput"
-                                            placeholder="name@example.com" value="{{$usuario['Phone1']}}" name="Phone1"
+                                            placeholder="name@example.com" value="{{$user['Phone1']}}" name="Phone1"
                                             data-bs-toggle="tooltip" data-bs-placement="top"
                                             data-bs-custom-class="custom-tooltip"
                                             title="Campo numero de telefono 1 editable y obligatorio.">
@@ -101,7 +101,7 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control @error('Phone2') is-invalid @enderror" id="floatingInput"
-                                            placeholder="name@example.com" value="{{$usuario['Phone2']}}" name="Phone2"
+                                            placeholder="name@example.com" value="{{$user['Phone2']}}" name="Phone2"
                                             data-bs-toggle="tooltip" data-bs-placement="top"
                                             data-bs-custom-class="custom-tooltip"
                                             title="Campo numero de telefono 2 editable y no obligatorio.">
@@ -114,7 +114,7 @@
                                     <div class="col-lg-6 col-12">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control @error('EmailAddress') is-invalid @enderror" id="floatingInput" 
-                                            placeholder="name@example.com" value="{{$usuario['EmailAddress']}}" name="EmailAddress"
+                                            placeholder="name@example.com" value="{{$user['EmailAddress']}}" name="EmailAddress"
                                             data-bs-toggle="tooltip" data-bs-placement="top"
                                             data-bs-custom-class="custom-tooltip"
                                             title="Campo correo de facturación editable, obligatorio y necesita confirmación.">
@@ -213,7 +213,7 @@
                                     </div>
 
                                 </div>
-                                <!-- @if($document != null)
+                                <!-- @if($doc != null)
                                     <div class="row d-flex justify-content-end my-4">
                                         <div class="col-12 text-center">
                                             <h3><b> Mis archivos.</b></h3>
@@ -221,13 +221,13 @@
                                         <div class="col-12">
                                             <div class="list-group">
                                                 
-                                                @foreach($document as $key => $val)
-                                                    <a href="//10.170.20.124/SAP-compartida/Carpeta_anexos/{{$document[$key]['FileName']}}" class="list-group-item list-group-item-action" 
+                                                @foreach($doc as $key => $val)
+                                                    <a href="//10.170.20.124/SAP-compartida/Carpeta_anexos/{{$doc[$key]['FileName']}}" class="list-group-item list-group-item-action" 
                                                     target="_blank" aria-current="true"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     data-bs-custom-class="custom-tooltip"
                                                     title="Botón para visualizar el archivo en una nueva pestaña.">
-                                                        {{$document[$key]['FileName']}}
+                                                        {{$doc[$key]['FileName']}}
                                                     </a>
                                                 @endforeach
 

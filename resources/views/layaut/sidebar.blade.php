@@ -1,7 +1,7 @@
 
 <nav class="navbar navbar-expand-lg bg-img fixed-top" style="background-color: #245319;">
   <div class="container-fluid">
-        <img src="../img/Logo.png" width="80rem" alt="">
+        <img src="{{url('/')}}/img/Logo.png" width="80rem" alt="LogoIVANagro">
     <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars"></i>
     </button>
@@ -22,15 +22,15 @@
     </div>
   </div>
 </nav>
+
 <script>
     $("#nav_personal").click(function () {
-        
+
         $(this).addClass("disabled");
         $("#nav_direcciones").addClass("disabled");
         $("#nav_contactos").addClass("disabled");
         
-        $("#content").html(
-        `
+        $("#content").html(`
             <div class="col-12">
                 <div class="row">
                     <div class="col-12 text-center ">
@@ -56,8 +56,7 @@
                     </div>
                 </form>
             </div>
-        `
-        ) ;
+        `);
     });
 
     $("#nav_direcciones").click(function () {
@@ -66,8 +65,7 @@
         $(this).addClass("disabled");
         $("#nav_contactos").addClass("disabled");
         
-        $("#content").html(
-        `
+        $("#content").html(`
             <div class="col-12">
                 <div class="row">
                     <div class="col-12 text-center">
@@ -98,8 +96,7 @@
                     </div>
                 </form>
             </div>
-        `
-        ) ;
+        `);
     });
     
     $("#nav_contactos").click(function () {
@@ -108,8 +105,7 @@
         $("#nav_direcciones").addClass("disabled");
         $(this).addClass("disabled");
         
-        $("#content").html(
-        `
+        $("#content").html(`
             <div class="col-12">
                 <div class="row">
                     <div class="col-12 text-center">
@@ -141,7 +137,6 @@
                     </div>
                 </form>
             </div>
-        `
-        ) ;
+        `);
     });
 </script>
